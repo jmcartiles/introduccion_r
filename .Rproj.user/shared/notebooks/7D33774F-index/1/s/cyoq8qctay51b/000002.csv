@@ -1,0 +1,1 @@
+"0","encuesta.arrange <- arrange(encuesta, desc(ingresos))"

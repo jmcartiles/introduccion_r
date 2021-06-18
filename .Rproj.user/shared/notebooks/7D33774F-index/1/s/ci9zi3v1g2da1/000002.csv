@@ -1,0 +1,1 @@
+"0","encuesta.summarise <- summarise(encuesta, ingreso.medio = mean(ingresos))"

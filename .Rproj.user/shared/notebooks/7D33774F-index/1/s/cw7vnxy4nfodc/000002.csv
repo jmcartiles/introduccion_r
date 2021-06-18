@@ -1,0 +1,5 @@
+"0","df.microdatos.2019 <- select(df.microdatos.2019, c(""SEXO"", ""PAIS_RESIDENCIA"", ""EDAD"", ""NOCHES"","
+"0","                                                   ""PERSONAS_16_64"", ""PERSONAS_65_O_MAS"","
+"0","                                                   ""GASTO_EUROS"", ""COSTE_VUELOS_EUROS"","
+"0","                                                   ""COSTE_ALOJ_EUROS"", ""ISLA"", ""ALOJ_CATEG"","
+"0","                                                   ""ANTELACION_VIAJE"", ""TRIMESTRE"", ""PESO""))"

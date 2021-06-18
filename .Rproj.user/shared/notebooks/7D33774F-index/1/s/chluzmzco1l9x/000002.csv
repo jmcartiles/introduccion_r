@@ -1,0 +1,4 @@
+"0","df.disenyo.registro.sexo <- read_excel(""data/Diseño de registro EGT 2018.xls"","
+"0","                                       sheet = ""Sexo"", skip = 1) %>%"
+"0","  select(""code"" = ""CÓDIGOS"", ""label"" = ""ETIQUETA"") %>%"
+"0","    filter(!is.na(code))"

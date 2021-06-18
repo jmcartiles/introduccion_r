@@ -1,0 +1,3 @@
+"0","df.ancho <- pivot_wider(df.largo, id_cols = region,"
+"0","            names_from = ""periodo"", names_prefix = ""periodo_"", values_from = ""poblacion"")"
+"0","df.ancho"

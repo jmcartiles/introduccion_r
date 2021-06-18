@@ -1,0 +1,25 @@
+"0","library(readr)"
+"0",""
+"0","datos <- read_csv2(""data/serie_gasto_istac.csv"")"
+"2","[36mi[39m Using [34m[34m'\',\''[34m[39m as decimal and [34m[34m'\'.\''[34m[39m as grouping mark. Use [38;5;251m[48;5;235m[38;5;251m[48;5;235m`read_delim()`[48;5;235m[38;5;251m[49m[39m for more control.
+"
+"1","
+[36m--[39m [1m[1mColumn specification[1m[22m [36m---------------------------------------------------------------------------------------------------[39m
+cols(
+  Periodo = [31mcol_character()[39m,
+  TOTAL = [31mcol_character()[39m,
+  Alemania = [31mcol_character()[39m,
+  Bélgica = [31mcol_character()[39m,
+  España = [31mcol_character()[39m,
+  Francia = [31mcol_character()[39m,
+  Holanda = [31mcol_character()[39m,
+  Irlanda = [31mcol_character()[39m,
+  Italia = [31mcol_character()[39m,
+  `Países Nórdicos` = [31mcol_character()[39m,
+  `Reino Unido` = [31mcol_character()[39m,
+  Suiza = [31mcol_character()[39m,
+  `Otros países` = [31mcol_character()[39m
+)
+
+"
+"0","head(datos)"

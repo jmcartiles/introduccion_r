@@ -1,0 +1,3 @@
+"0","i.code <- match(df.microdatos.2019$SEXO, df.disenyo.registro.sexo$code)"
+"0","df.microdatos.2019 <- df.microdatos.2019 %>%"
+"0","  mutate(""SEXO"" = as.factor(df.disenyo.registro.sexo$label[i.code]))"

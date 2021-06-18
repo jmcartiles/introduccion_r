@@ -1,0 +1,4 @@
+"0","numerico <- 3.4"
+"0","entero <- 3L"
+"0","logico <- TRUE"
+"0","fecha <- as.Date(""2020-01-01"")"

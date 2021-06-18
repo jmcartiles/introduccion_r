@@ -1,0 +1,6 @@
+"0","df.microdatos.2019 <- df.microdatos.2019 %>%"
+"0","  mutate(`PAIS_RESIDENCIA` = get_label("
+"0","    var_variable = `PAIS_RESIDENCIA`,"
+"0","    var_sheet = ""País2"","
+"0","    var_ruta = ""data/Diseño de registro EGT 2018.xls"")"
+"0",")"

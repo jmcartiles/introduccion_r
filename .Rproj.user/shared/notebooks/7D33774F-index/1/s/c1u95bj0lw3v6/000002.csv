@@ -1,0 +1,8 @@
+"0","# devtools::install_github(""ropenspain/istacbaser"")"
+"0","library(istacbaser)"
+"0","busqueda.egt <- istacbase_search(""egt"", fields = ""datos publicadosII"")"
+"0","df <- istacbase(busqueda.egt$ID[1], POSIXct = TRUE, freq = ""trimestral"")"
+"0","df.trimestral <- filter(df,"
+"0","                     Indicadores == ""Valor absoluto"" &"
+"0","                     `Indicadores de gasto` == ""GASTO TOTAL"" &"
+"0","                     `Países de residencia` == ""TOTAL PAÍSES"")"

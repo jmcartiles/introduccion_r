@@ -1,0 +1,7 @@
+"0","df.microdatos.2019 %>%"
+"0","  mutate(gasto.total = GASTO_EUROS + COSTE_VUELOS_EUROS + COSTE_ALOJ_EUROS,"
+"0","         turistas.mas.16 = PERSONAS_16_64 + PERSONAS_65_O_MAS) %>%"
+"0","  group_by(ISLA) %>%"
+"0","  summarise(turistas.mas.16.total = sum(PESO),"
+"0","            gasto.medio = sum(gasto.total/turistas.mas.16/NOCHES*PESO)/turistas.mas.16.total) %>%"
+"0","  ungroup"

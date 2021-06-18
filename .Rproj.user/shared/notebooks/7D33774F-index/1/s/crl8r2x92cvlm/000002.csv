@@ -1,0 +1,17 @@
+"0","df.microdatos.2019 <- read_csv2(""data/GASTO_TURISTICO_2019.csv"")"
+"2","[36mi[39m Using [34m[34m'\',\''[34m[39m as decimal and [34m[34m'\'.\''[34m[39m as grouping mark. Use [38;5;251m[48;5;235m[38;5;251m[48;5;235m`read_delim()`[48;5;235m[38;5;251m[49m[39m for more control.
+"
+"1","
+[36m--[39m [1m[1mColumn specification[1m[22m [36m---------------------------------------------------------------------------------------------------[39m
+cols(
+  .default = col_double(),
+  AEROPUERTO_ORIGEN = [31mcol_character()[39m,
+  PAIS_DESTINO = [31mcol_character()[39m,
+  NACIONALIDAD = [31mcol_character()[39m,
+  PAIS_RESIDENCIA = [31mcol_character()[39m,
+  ISLA = [31mcol_character()[39m,
+  TRIMESTRE = [31mcol_character()[39m
+)
+[36mi[39m Use [38;5;251m[48;5;235m[38;5;251m[48;5;235m`spec()`[48;5;235m[38;5;251m[49m[39m for the full column specifications.
+
+"

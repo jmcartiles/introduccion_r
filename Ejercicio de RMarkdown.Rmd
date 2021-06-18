@@ -1,0 +1,94 @@
+---
+title: "Práctica de RMarkdown"
+author: "José Manuel Cazorla Artiles"
+date: "15/06/2021"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Ejercicios
+
+1. Fijar el directorio de trabajo y cargar las librerías `tidiverse` e `istacbaser`.
+
+```{r, echo=FALSE}
+# El código de R debe escribirse dentro de los chunks.
+```
+
+2. Emplear la función `istacbase_search()` para obtener el `ID` de la serie "Turistas según lugares de residencia por sexo, grupos de edades y periodos."
+
+3. Emplear la función `istacbase()` con el parámetro `POSIXct = TRUE` para descargar la serie.
+
+4. Obtener el total de turistas para cada nacionalidad en el mes periodo más reciente.
+
+5. Obtener el total de turistas para cada nacionalidad en el mismo mes del año anterior.
+
+6. Calcular la variación interanual en la llegada de turistas por nacionalidad.
+
+7. Crear una frase con un parámetro condicional que indique que los turistas han aumentado o disminuido respecto al año anterior.
+
+Ejemplo:
+
+```{r}
+turistas.actual <- 7
+turistas.anterior <- 5
+variacion.interanual <- turistas.actual/turistas.anterior - 1
+variacion.texto <- if(variacion.interanual > 0) {
+  "aumentado"
+} else {
+    "disminuido"
+}
+```
+
+Las llegadas de turistas han `r variacion.texto` un `r paste0(round(variacion.interanual, 2) * 100, "%")`.
+
+8. Indique las nacionalidades de las que hay datos mediante el comando `unique()`.
+
+9. Realice el ejercicio anterior para cada lugar de residencia.
+
+10. Realice un gráfico con la evolución mensual de llegadas totales.
+
+\newpage
+
+# Ejemplo de sintaxis Markdown
+
+## Epígrafe I
+
+Texto correspondiente al epígrafe I.
+
+Texto correspondiente al epígrafe I.\
+Si dejamos dos espacios en blanco al final de la línea saltamos a una nueva línea
+
+### Subepígrafe I
+
+Texto correspondiente al subepígrafe I.
+
+Ejemplo de enlace a una url: [ULPGC](https://www.ulpgc.es/)
+
+También se puede escribir en **negrita** o *cursiva*.
+
+Hacer listas numeradas:
+
+1.  Elemento
+2.  Elemento
+3.  Elemento
+
+Y sin numerar:
+
+-   Elemento
+-   Elemento
+-   Elemento
+
+Indicar una nota a pie de página [^1]
+
+[^1]: Escribir la nota a pie de página
+
+Crear una tabla.
+
+| **Indicador** | **Clave**  |
+|---------------|------------|
+| Elemento 1    | Elemento 2 |
+| Elemento 3    | Elemento 4 |
+

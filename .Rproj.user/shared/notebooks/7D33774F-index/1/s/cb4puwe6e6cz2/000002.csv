@@ -1,0 +1,4 @@
+"0","df.largo <- pivot_longer(df.ancho,"
+"0","                         cols = c(starts_with(""periodo"")), names_to = ""periodo"","
+"0","                         names_prefix = ""periodo_"", values_to = ""poblacion"")"
+"0","df.largo"

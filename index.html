@@ -1,0 +1,2530 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Introducción al análisis de datos con R</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="José Manuel Cazorla Artiles" />
+    <script src="libs/header-attrs-2.8/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/rutgers.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/rutgers-fonts.css" rel="stylesheet" />
+    <link rel="stylesheet" href="custom.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introducción al análisis de datos con R
+### José Manuel Cazorla Artiles
+
+---
+
+
+# Estructura del curso
+
+1. Descarga e instalación de R y RStudio.
+
+2. Primeros pasos con R.
+
+  2.1. Tipos de objetos: vectores, matrices, data frames y listas.
+  
+  2.2. Estructuras básicas de programación.
+  
+  2.3. Trabajo con paquetes.
+
+3. Tratamiento de datos.
+
+  3.1. Importar y exportar datos.
+
+  3.2. Preparación de datos.
+  
+  3.3. Caso práctico: trabajar con microdatos.
+
+4. Visualización de datos con ggplot2.
+
+5. Informes con RMarkdown.
+
+6. Ampliar conocimientos.
+
+---
+
+class:  inverse, center, middle, separador
+
+# Descarga e instalación de R y RStudio
+
+---
+
+background-image: url(img/R_foundation_logo.png)
+background-position: 90% 90%
+background-size: 100pt
+
+
+# ¿Qué es R?
+
+R es un entorno y lenguaje de programación diseñado para el análisis estadístico.
+
+* Es gratuito y de código abierto. Es parte de un proyecto colaborativo y abierto donde, además de la configuración básica, hay multitud de funciones y paquetes desarrollados por los propios usuarios.
+
+* Al ser un software de código abierto, a diferencia de otras herramías de análisis estadístico como STATA, SPSS, MATLAB... no tiene restricciones a la modificación del código, salvo las propias de la licencia GPL. 
+
+---
+
+background-image: url(img/RStudio.png)
+background-position: 50% 80%
+background-size: 300pt
+
+# ¿Y RStudio?
+
+RStudio es un entorno de desarrollo integrado (IDE en su siglas en inglés) para R.
+
+* Incluye consola, editor con resaltado de sintaxis que soporta ejecución directa del código además de herramientas para gestión de gráficos, historial de comandos, depuración de código y espacio de trabajo.
+
+* Es de código abierto y existen versiones para los diferentes sistemas operativos (Windows, Mac y Linux).
+
+---
+
+background-image: url(img/both.png)
+background-position: 50% 70%
+background-size: 450pt
+
+
+# Descarga e instalación
+
+.pull-left[
+### R
+
+* [Web de R](https://www.r-project.org/)
+
+* [Link de descarga](https://cran.r-project.org/bin/windows/base/)
+
+]
+
+.pull-right[
+### RStudio
+
+* [Web de RStudio](https://www.rstudio.com/)
+
+* [Link de descarga](https://www.rstudio.com/products/rstudio/download/)
+
+]
+
+---
+ 
+# Primeros pasos en R
+
+En su versión más básica R funciona como una calculadora.
+
+*Operadores aritméticos*
+
+ ---
+
+* Suma: `+`
+* Resta: `-`
+* Multiplicación:`*`
+* División:`/`
+* Potencia: `^`
+* Módulo: `%%`
+
+ ---
+
+Pruebe el siguiente código en la consola:
+
+
+```r
+3 + 4
+```
+
+---
+
+## Variables
+
+Un concepto fundamental en los lenguajes de programación es el de **variable**.
+
+Permite almacenar un valor o un objeto en R para luego poder consultarlo o emplearlo como parte de otras operaciones.
+
+*Ejemplo*
+
+ ---
+
+Para asignar el valor `4` a la variable `x` se puede usar el operador asignación `&lt;-` (se puede usar también `=`)
+
+
+```r
+x &lt;- 4
+```
+
+Para acceder al valor almacenado en `x` debemos escribir el nombre de la variable en la consola
+
+
+```r
+x
+```
+
+R nos devuelve en consola el valor almacenado en `x` que en este caso es `4`
+
+
+```
+## [1] 4
+```
+
+---
+
+## Tipos de datos en R
+
+* Texto (character) `chr: "char"`
+
+* Numérico `num: 3.4`
+
+* Entero `int: 3L`
+
+* Complejo `cplx: 3i`
+
+* Lógico `logi: TRUE`
+
+* Fecha `Date`: as.Date("2020-01-01")
+
+Podemos consultar el tipo de objeto mediante la función `class(x)`.
+
+*Ejemplo*
+
+----
+
+Aplique la función class(x) a los objetos definidos a continuación:
+
+
+```r
+numerico &lt;- 3.4
+entero &lt;- 3L
+complejo &lt;- 3i
+logico &lt;- TRUE
+fecha &lt;- as.Date("2020-01-01")
+```
+
+
+```r
+class(x = numerico)
+```
+
+```
+## [1] "numeric"
+```
+
+---
+
+background-image: url(img/motion.gif)
+background-size: 150pt
+background-position: 85% 30%
+
+
+## Directorio de trabajo
+
+.left[
+* Vía menú
+
+    * Ir a la pestaña `Files`
+    
+    * Hacer click en `...` (Go to directory)
+    
+    * Seleccionar directorio
+    
+    * Hacer click en la subestaña con la rueda dentada `More`
+    
+    * Hacer click en ` Set AS Working Directory`
+
+* Vía comando de R
+
+
+```r
+setwd('c:/establecer/carpeta/de/trabajo')
+```
+
+* Vía proyecto
+
+    * `File`, `New Project`. Cuando esté creado se puede acceder al proyecto con `File`, `Open Project`.
+]
+
+---
+
+class:  inverse, center, middle, separador
+
+# Tipos de objetos
+
+---
+
+# Vectores
+
+Los vectores son conjuntos de datos unidimensionales del mismo tipo. Se declaran con la función `c()` (de concatenate).
+
+*Ejemplo*
+
+----
+
+Crear vectores numérico, lógico y de texto y comprobar sus clases.
+
+
+```r
+vnum &lt;- c(1,2,3)
+vlog &lt;- c(TRUE,FALSE,TRUE)
+vchar &lt;- c("curso","de","R")
+```
+ 
+
+```r
+class(vnum)
+```
+
+```
+## [1] "numeric"
+```
+
+```r
+class(vlog)
+```
+
+```
+## [1] "logical"
+```
+
+```r
+class(vchar)
+```
+
+```
+## [1] "character"
+```
+
+Puede obtenerse la longitud de un vector con la función `length(x)`.
+
+
+```r
+length(vnum)
+```
+
+```
+## [1] 3
+```
+
+---
+
+## Operaciones con vectores
+
+* Concatenar vectores
+
+
+```r
+vec1 &lt;- c(1,4,5,3)
+vec2 &lt;- 1:4 # es equivalente a c(1,2,3,4) o seq(1,4,1)
+vec12 &lt;- c(vec1, vec2)
+```
+
+
+```r
+vec12
+```
+
+```
+## [1] 1 4 5 3 1 2 3 4
+```
+
+* Operaciones con un escalar
+
+
+```r
+vec1 + 2
+```
+
+```
+## [1] 3 6 7 5
+```
+
+```r
+vec1 * 2
+```
+
+```
+## [1]  2  8 10  6
+```
+
+* Operaciones vectoriales
+
+
+```r
+vec1 + vec2
+```
+
+```
+## [1] 2 6 8 7
+```
+
+---
+
+## Operaciones con vectores
+
+*Comparadores*
+
+ ---
+
+* Mayor que: `&gt;`
+* Menor que: `&lt;`
+* Mayor o igual que: `&gt;=`
+* Menor o igual que: `&lt;=`
+* Igual: `==`
+* Distinto: `!=`
+ 
+ ---
+
+* Comparar vectores
+
+
+```r
+vec1 &lt; vec2
+```
+
+```
+## [1] FALSE FALSE FALSE  TRUE
+```
+
+
+* Concatenar el vector de texto `vchar` y los valores de `vec1`
+
+
+```r
+paste(vchar, vec1)
+```
+
+```
+## [1] "curso 1" "de 4"    "R 5"     "curso 3"
+```
+
+* Concatenar los valores de `vchar` en un único string
+
+
+```r
+paste(vchar, collapse = " ")
+```
+
+```
+## [1] "curso de R"
+```
+
+---
+
+## Seleccionar elementos de vectores
+
+Tomemos un nuevo vector de ejemplo.
+
+
+```r
+vec1 &lt;- 1:7
+```
+
+* Seleccionar un elemento
+
+
+```r
+vec1[1]
+```
+
+```
+## [1] 1
+```
+
+* Seleccionar elementos por nombre
+
+
+```r
+# asignamos un nombre a cada elemento del vector
+names(vec1) &lt;- c("lunes", "martes", "miercoles",
+                 "jueves", "viernes", "sabado", "domingo")
+vec1[c("miercoles")]
+```
+
+```
+## miercoles 
+##         3
+```
+
+* Seleccionar elementos que cumplen una condición
+
+
+```r
+vec1[vec1 &lt; 5]
+```
+
+```
+##     lunes    martes miercoles    jueves 
+##         1         2         3         4
+```
+
+---
+
+# Matrices
+
+La matriz es un objeto bidimensional de un mismo tipo de datos repartidos en filas y columnas.
+
+Se puede crear una matriz usando la función `matrix(x)`.
+
+Por ejemplo, una matriz de 3x3 con valores de 1 a 9 ordenados por fila.
+
+
+```r
+matriz1 &lt;- matrix(data = 1:9, nrow = 3, ncol = 3, byrow = TRUE)
+# Ordenados por columnas
+# matriz1 &lt;- matrix(data = 1:9, nrow = 3, ncol = 3, byrow = FALSE)
+matriz1
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    4    5    6
+## [3,]    7    8    9
+```
+
+```r
+class(matriz1)
+```
+
+```
+## [1] "matrix" "array"
+```
+
+Puede omitirse el argumento de columnas/filas pues la función `matrix(x)` es capaz de obtenerlo a partir del número de elemento si conoce al menos una dimensión.
+
+
+```r
+matriz1 &lt;- matrix(data = 1:9, nrow = 3, byrow = TRUE)
+matriz1
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    4    5    6
+## [3,]    7    8    9
+```
+
+---
+
+Puede obtenerse la dimensón de una matriz con la función `dim(x)`.
+
+
+```r
+dim(matriz1)
+```
+
+```
+## [1] 3 3
+```
+
+Añadir filas y columnas mediante las funciones `rbind(x)` y `cbind(x)`.
+
+
+```r
+rbind(matriz1, 1:3)
+```
+
+```
+##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    4    5    6
+## [3,]    7    8    9
+## [4,]    1    2    3
+```
+
+```r
+cbind(matriz1, 1:3)
+```
+
+```
+##      [,1] [,2] [,3] [,4]
+## [1,]    1    2    3    1
+## [2,]    4    5    6    2
+## [3,]    7    8    9    3
+```
+
+Las filas y columnas de una matriz pueden nombrarse mediante las funciones `rownames(x)` y `colnames(x)`.
+
+
+```r
+rownames(matriz1) &lt;- paste("fila", 1:3)
+colnames(matriz1) &lt;- paste("columna", 1:3)
+matriz1
+```
+
+```
+##        columna 1 columna 2 columna 3
+## fila 1         1         2         3
+## fila 2         4         5         6
+## fila 3         7         8         9
+```
+
+---
+
+## Operaciones con matrices
+
+Las operaciones con matrices siguen la misma lógica que con los vectores. Veamos algunos ejemplo:
+
+* Suma de un escalar
+
+
+```r
+matriz1 + 2
+```
+
+```
+##        columna 1 columna 2 columna 3
+## fila 1         3         4         5
+## fila 2         6         7         8
+## fila 3         9        10        11
+```
+
+* Producto de los elementos de una matriz
+
+
+```r
+matriz1 * matriz1
+```
+
+```
+##        columna 1 columna 2 columna 3
+## fila 1         1         4         9
+## fila 2        16        25        36
+## fila 3        49        64        81
+```
+
+* Producto de matrices
+
+
+```r
+matriz1 %*% matriz1
+```
+
+```
+##        columna 1 columna 2 columna 3
+## fila 1        30        36        42
+## fila 2        66        81        96
+## fila 3       102       126       150
+```
+
+---
+
+## Operaciones con matrices
+
+* Suma por fila
+
+
+```r
+rowSums(matriz1)
+```
+
+```
+## fila 1 fila 2 fila 3 
+##      6     15     24
+```
+
+* Suma por columna
+
+
+```r
+colSums(matriz1)
+```
+
+```
+## columna 1 columna 2 columna 3 
+##        12        15        18
+```
+
+* Producto por fila
+
+
+```r
+apply(matriz1, 1, prod)
+```
+
+```
+## fila 1 fila 2 fila 3 
+##      6    120    504
+```
+
+* Producto por columna
+
+
+```r
+apply(matriz1, 2, prod)
+```
+
+```
+## columna 1 columna 2 columna 3 
+##        28        80       162
+```
+
+---
+
+## Seleccionar elementos de matrices
+
+A diferencia de los vectores, donde sólo necesitamos indicar un valor pues son unidimensionales, en las matrices hay que indicar dos valores ya que tienen dos dimensions.
+
+* Posición de fila y columna
+
+
+```r
+matriz1[2,3]
+```
+
+```
+## [1] 6
+```
+
+
+```r
+matriz1[2,1:3]
+```
+
+```
+## columna 1 columna 2 columna 3 
+##         4         5         6
+```
+
+* Nombre de fila y columna
+
+
+```r
+matriz1["fila 1", "columna 1"]
+```
+
+```
+## [1] 1
+```
+
+
+```r
+matriz1["fila 1", paste("columna", 1:2)]
+```
+
+```
+## columna 1 columna 2 
+##         1         2
+```
+
+---
+
+# Factores
+
+Se emplean para almacenar variables categóricas en R y pueden ser factores ordenados o no ordenados.
+
+Se crean con la función `factor(x)`.
+
+* Factor no ordenado
+
+
+```r
+sexo &lt;- factor(c("Hombre", "Mujer", "Hombre", "Mujer"))
+sexo
+```
+
+```
+## [1] Hombre Mujer  Hombre Mujer 
+## Levels: Hombre Mujer
+```
+
+* Factor ordenado
+
+
+```r
+estudios &lt;- factor(c("primarios", "secundarios", "superiores",
+                     "superiores", "secundarios", "primarios"),
+                   ordered = TRUE,
+                   levels = c("primarios", "secundarios", "superiores"))
+estudios
+```
+
+```
+## [1] primarios   secundarios superiores  superiores  secundarios primarios  
+## Levels: primarios &lt; secundarios &lt; superiores
+```
+
+Permite la comparación entre los elementos de dicho factor.
+
+
+```r
+estudios[1] &gt; estudios[2]
+```
+
+```
+## [1] FALSE
+```
+
+---
+
+# Listas
+
+La lista es un objeto que permite recoger objetos de distinto tipo.
+
+Se puede crear una lista con la función `list()`.
+
+
+```r
+lista1 &lt;- list(vector = vec1, matriz = matriz1,
+               factor.no.ordenado = sexo, factor.ordenado = estudios)
+str(lista1) # muestra la estructura
+```
+
+```
+## List of 4
+##  $ vector            : Named int [1:7] 1 2 3 4 5 6 7
+##   ..- attr(*, "names")= chr [1:7] "lunes" "martes" "miercoles" "jueves" ...
+##  $ matriz            : int [1:3, 1:3] 1 4 7 2 5 8 3 6 9
+##   ..- attr(*, "dimnames")=List of 2
+##   .. ..$ : chr [1:3] "fila 1" "fila 2" "fila 3"
+##   .. ..$ : chr [1:3] "columna 1" "columna 2" "columna 3"
+##  $ factor.no.ordenado: Factor w/ 2 levels "Hombre","Mujer": 1 2 1 2
+##  $ factor.ordenado   : Ord.factor w/ 3 levels "primarios"&lt;"secundarios"&lt;..: 1 2 3 3 2 1
+```
+
+---
+
+## Seleccionar elementos de una lista
+
+Los elementos de una lista se puden seleccionar con el operador `[[]]`, o `$` si el elemento tiene nombre.
+
+
+```r
+lista1$vector
+```
+
+```
+##     lunes    martes miercoles    jueves   viernes    sabado   domingo 
+##         1         2         3         4         5         6         7
+```
+
+```r
+lista1[[1]]
+```
+
+```
+##     lunes    martes miercoles    jueves   viernes    sabado   domingo 
+##         1         2         3         4         5         6         7
+```
+
+```r
+lista1[["vector"]]
+```
+
+```
+##     lunes    martes miercoles    jueves   viernes    sabado   domingo 
+##         1         2         3         4         5         6         7
+```
+
+También se pueden seleccionar elementos dentro de un elmento mediante el operador `[]`.
+
+
+```r
+lista1$vector[1]
+```
+
+```
+## lunes 
+##     1
+```
+
+```r
+lista1$vector[1:2]
+```
+
+```
+##  lunes martes 
+##      1      2
+```
+
+---
+
+## Operaciones con listas
+
+*Ejemplos*
+
+ ---
+
+* Suma de un escalar.
+
+
+```r
+lista1$vector + 1
+```
+
+```
+##     lunes    martes miercoles    jueves   viernes    sabado   domingo 
+##         2         3         4         5         6         7         8
+```
+
+* Suma por columna de una matriz.
+
+
+```r
+colSums(lista1$matriz)
+```
+
+```
+## columna 1 columna 2 columna 3 
+##        12        15        18
+```
+
+---
+
+# Data Frame
+
+Se trata de un objeto de caracter bidimensional, en el que cada columna sí debe ser del mismo tipo de datos.
+
+Se crean con la función `data.frame()`.
+
+
+```r
+id &lt;- 1:5
+ola &lt;- c(rep("T1",3), rep("T2", 2))
+sexo &lt;- factor(c('Hombre', 'Mujer', 'Mujer', 'Mujer', 'Hombre'))
+ingresos &lt;- c(1500,2300,1700,900,2100)
+residente &lt;- c(TRUE, TRUE, TRUE, FALSE, TRUE)
+isla &lt;- c("Gran Canaria","Tenerife", "Tenerife", NA, "Gran Canaria")
+
+encuesta &lt;- data.frame(id, ola, sexo, ingresos, residente, isla, stringsAsFactors = FALSE)
+encuesta
+```
+
+```
+##   id ola   sexo ingresos residente         isla
+## 1  1  T1 Hombre     1500      TRUE Gran Canaria
+## 2  2  T1  Mujer     2300      TRUE     Tenerife
+## 3  3  T1  Mujer     1700      TRUE     Tenerife
+## 4  4  T2  Mujer      900     FALSE         &lt;NA&gt;
+## 5  5  T2 Hombre     2100      TRUE Gran Canaria
+```
+
+Obtener la estructura del dataframe.
+
+
+```r
+str(encuesta)
+```
+
+```
+## 'data.frame':	5 obs. of  6 variables:
+##  $ id       : int  1 2 3 4 5
+##  $ ola      : chr  "T1" "T1" "T1" "T2" ...
+##  $ sexo     : Factor w/ 2 levels "Hombre","Mujer": 1 2 2 2 1
+##  $ ingresos : num  1500 2300 1700 900 2100
+##  $ residente: logi  TRUE TRUE TRUE FALSE TRUE
+##  $ isla     : chr  "Gran Canaria" "Tenerife" "Tenerife" NA ...
+```
+
+---
+
+## Seleccionar elementos de un dataframe
+
+La selección de elementos se realiza con el operador `[]`, también podemos seleccionar una columna por su nombre con el operador `$`.
+
+
+```r
+# encuesta["sexo"]
+encuesta$sexo
+```
+
+```
+## [1] Hombre Mujer  Mujer  Mujer  Hombre
+## Levels: Hombre Mujer
+```
+
+
+```r
+# encuesta[c(1,2,3)]
+encuesta[c("sexo", "ingresos", "residente")]
+```
+
+```
+##     sexo ingresos residente
+## 1 Hombre     1500      TRUE
+## 2  Mujer     2300      TRUE
+## 3  Mujer     1700      TRUE
+## 4  Mujer      900     FALSE
+## 5 Hombre     2100      TRUE
+```
+
+
+```r
+encuesta[1:2, 2:3]
+```
+
+```
+##   ola   sexo
+## 1  T1 Hombre
+## 2  T1  Mujer
+```
+
+
+```r
+encuesta[encuesta$ingresos &gt; 2000, ]
+```
+
+```
+##   id ola   sexo ingresos residente         isla
+## 2  2  T1  Mujer     2300      TRUE     Tenerife
+## 5  5  T2 Hombre     2100      TRUE Gran Canaria
+```
+
+---
+
+## Operaciones con dataframes
+
+Por ejemplo, crear un nuevo dataframe reemplazando la variable `ingresos` por `ingresos * 2`.
+
+```r
+ingresos2 &lt;- encuesta$ingresos * 2
+ingresos2
+```
+
+```
+## [1] 3000 4600 3400 1800 4200
+```
+
+```r
+encuesta2 &lt;- encuesta
+encuesta2$ingresos &lt;- ingresos2
+encuesta2
+```
+
+```
+##   id ola   sexo ingresos residente         isla
+## 1  1  T1 Hombre     3000      TRUE Gran Canaria
+## 2  2  T1  Mujer     4600      TRUE     Tenerife
+## 3  3  T1  Mujer     3400      TRUE     Tenerife
+## 4  4  T2  Mujer     1800     FALSE         &lt;NA&gt;
+## 5  5  T2 Hombre     4200      TRUE Gran Canaria
+```
+
+---
+
+class:  inverse, center, middle, separador
+
+# Estructuras básicas de programación
+
+---
+
+# Condicionales
+
+Se puede controlar el flujo de ejecución mediante el uso de condicionales.
+
+
+```r
+x &lt;- -1
+if(x &lt; 0) {
+  print("El valor de x es negativo")
+}
+```
+
+```
+## [1] "El valor de x es negativo"
+```
+
+```r
+x &lt;- 1
+if(x &lt; 0) {
+  print("El valor de x es negativo")
+} else {
+  print("El valor de x es positivo")
+}
+```
+
+```
+## [1] "El valor de x es positivo"
+```
+
+```r
+x &lt;- 0
+if(x &lt; 0) {
+  print("El valor de x es negativo")
+} else if (x &gt; 0) {
+  print("El valor de x es positivo")
+} else {
+  print("El valor de x es 0")
+}
+```
+
+```
+## [1] "El valor de x es 0"
+```
+
+---
+
+# Bucles
+
+Permite realizar un conjunto de operaciones de manera iterativa.
+
+
+```r
+x &lt;- 0
+for (i in 1:10) {
+  x &lt;- x + i
+  print(x)
+}
+```
+
+```
+## [1] 1
+## [1] 3
+## [1] 6
+## [1] 10
+## [1] 15
+## [1] 21
+## [1] 28
+## [1] 36
+## [1] 45
+## [1] 55
+```
+
+
+```r
+x &lt;- 0
+while (x &lt; 5) {
+  x &lt;- x + 1
+  print(x)
+}
+```
+
+```
+## [1] 1
+## [1] 2
+## [1] 3
+## [1] 4
+## [1] 5
+```
+
+---
+
+# Funciones
+
+Las funciones son conjuntos de insrtucciones que realizan tareas determinadas y que pueden depender de parámetros que modifican el resultado.
+
+*Ejemplos*
+
+ ---
+
+
+```r
+f_suma &lt;- function(x, y) {x + y}
+f_suma(1, 2)
+```
+
+```
+## [1] 3
+```
+
+
+```r
+f_suma_positivos &lt;- function(x, y) {
+  if(any(c(x,y) &lt; 0)) {
+    print("Introduzca valores positivos")
+    } else {
+      x + y
+    }
+}
+
+
+f_suma_positivos(1, -2)
+```
+
+```
+## [1] "Introduzca valores positivos"
+```
+
+
+---
+
+class:  inverse, center, middle, separador
+
+# Trabajo con paquetes
+
+---
+
+Una de las virtudes de R es la ingente cantidad de funciones que hay desarrolladas.
+
+Los usuarios de R desarrollan sus propias funciones y pueden agrupar éstas en un paquete.
+
+En [CRAN](https://cran.r-project.org/), el repositorio oficial de R hay numerosos paquetes con distintas utilidades.
+
+Estos paquetes nos facilitan la tarea de la programación. Para poder usarlos debemos instalarlos y posteriormente cargarlos.
+
+## Instalar un paquete de R
+
+* Con el comando `install.package()`.
+
+* A través de la pestaña `Packages` y pulsando el botón `Install`.
+
+* A través del menú `Tools`, `Install packages`.
+
+## Cargar un paquete de R
+
+ Con el comando `library()`.
+
+* Pulsando en la casilla de verificación de la lista de paquetes intalados en la pestaña de `Packages`.
+
+---
+
+class:  inverse, center, middle, separador
+
+# Tratamiento de datos
+
+---
+
+# El flujo de trabajo
+
+El flujo de trabajo en un proceso de análisis de datos puede representarse con el siguiente diagrama en la mayoría de los casos.
+
+&lt;figure&gt;
+    &lt;div&gt;
+      &lt;img src="img/data-science.png"&gt;
+    &lt;/div&gt;
+    &lt;figcaption"&gt;Fuente: &lt;a href="https://r4ds.had.co.nz"&gt;R for Data Science&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+* **Import**. El primer paso consiste en acceder a los datos. Los datos pueden estar en multitud de formatos: desde EXCEL y CSV hasta datos web, imágenes etc. 
+
+* **Tidy**. Posteriormente se realiza un proceso de limpieza de los datos. Los datos no siempre tienen un formato amigable, de hecho, lo normal es que no lo tengan, si lo tienen es que alguien ha hecho este paso previamente.
+
+* **Understand**. Una vez los datos estén en el formato adecuado se inicia el proceso de exploración de los datos. En esta parte del flujo de trabajo se realizan transformaciones y visualizaciones de los datos con objeto de entender mejor los mismos y las relaciones entre ellos, normalmente es un proceso iterativo. La modelización forma parte del proceso de análisis de datos aunque queda fuera del alcance de este curso.
+
+* **Communicate**. Consiste en reportar, de la manera adecuada, las conclusiones extraidas.
+
+---
+
+# Importar y exportar datos
+
+## Importar fichero CSV
+
+Leer el fichero `serie_gasto_istac.csv`, que contiene las [series trimestrales de gasto turístico. Islas de Canarias. 2018 (Metodología 2018)](http://www.gobiernodecanarias.org/istac/jaxi-istac/menu.do?uripub=urn:uuid:70b2796b-2f02-435c-9f0a-7588612bb733) según la EGT recogidas en el [ISTAC](www.istac.es), de la carpeta `data` y almacenarlo en la variable `datos`. Mostrar las 5 primeras filas.
+
+
+```r
+library(readr)
+
+datos &lt;- read_csv2("data/serie_gasto_istac.csv")
+head(datos)
+```
+
+```
+## # A tibble: 6 x 13
+##   Periodo    TOTAL   Alemania  Bélgica  España  Francia  Holanda Irlanda Italia 
+##   &lt;chr&gt;      &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;   &lt;chr&gt;  
+## 1 2021 Prim~ 477659~ 15260651~ 1270554~ 780309~ 5853140~ 501033~ 811012~ 193948~
+## 2 2020       486783~ 10870007~ 1948477~ 573726~ 2093751~ 177528~ 119279~ 133156~
+## 3 2020 Cuar~ 666689~ 17762377~ 4540235~ 103904~ 3584793~ 125273~ 164285~ 146798~
+## 4 2020 Terc~ 803894~ 17080218~ 5000075~ 254588~ 4402044~ 358075~ 151699~ 332754~
+## 5 2020 Segu~ ..      ..        ..       ..      ..       ..      ..      ..     
+## 6 2020 Prim~ 339724~ 738574784 9944465~ 215233~ 1295067~ 129193~ 876813~ 852009~
+## # ... with 4 more variables: Países Nórdicos &lt;chr&gt;, Reino Unido &lt;chr&gt;,
+## #   Suiza &lt;chr&gt;, Otros países &lt;chr&gt;
+```
+
+También se puede importar desde el menú mediante el botón `Import Dataset` de la pestaña `Environment`.
+
+---
+
+## Importar fichero excel
+
+Leer el fichero `serie_gasto_istac.xlsx` con los datos anteriormente cargados en formato CSV, ahora tienen formato XLSX. Mostrar las 5 primeras filas.
+
+
+```r
+library(readxl)
+
+datos &lt;- read_excel("data/serie_gasto_istac.xlsx")
+head(datos)
+```
+
+```
+## # A tibble: 6 x 13
+##   Periodo   TOTAL   Alemania Bélgica  España  Francia  Holanda  Irlanda  Italia 
+##   &lt;chr&gt;     &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;   &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;    &lt;chr&gt;  
+## 1 2021 Pri~ 477659~ 1526065~ 1270554~ 780309~ 5853140~ 5010331~ 8110127~ 193948~
+## 2 2020      486783~ 1087000~ 1948477~ 573726~ 2093751~ 1775284~ 1192798~ 133156~
+## 3 2020 Cua~ 666689~ 1776237~ 4540235~ 103904~ 3584793~ 1252735~ 1642854~ 146798~
+## 4 2020 Ter~ 803894~ 1708021~ 5000075~ 254588~ 4402044~ 3580756~ 1516992~ 332754~
+## 5 2020 Seg~ ..      ..       ..       ..      ..       ..       ..       ..     
+## 6 2020 Pri~ 339724~ 7385747~ 9944465~ 215233~ 1295067~ 1291934~ 8768139~ 852009~
+## # ... with 4 more variables: Países Nórdicos &lt;chr&gt;, Reino Unido &lt;chr&gt;,
+## #   Suiza &lt;chr&gt;, Otros países &lt;chr&gt;
+```
+
+---
+
+## APIs
+
+Un API "Application Programming Interface" es un mecanismo que permite realizar una petición de datos a un servidor de internet.
+
+Muchas instituciones prestan un servicio API para consultar los datos que ofrecen.
+
+Permiten un acceso programático a los datos, que se obtienen, frecuentemente, en formato JSON.
+
+Es habitual el desarrollo de paquetes en R que faciliten el acceso a estos datos.
+
+Destacar algunas iniciativas de datos en abierto como: [ROpenSci](https://ropensci.org/) y [ROpenSpain](https://ropenspain.es/).
+
+A continuación se indican algunos de ellos:
+
+
+&lt;style&gt;
+td {
+  font-size: 14px
+}
+&lt;/style&gt;
+
+ Paquete    | Fuente de datos  &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp; &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;|Código de instalación
+:----       |:--------------------------------------------------|:---
+`WDI`       |Banco Mundial                                      |`install.packages("WDI")`
+`imfr`      |Fondo Monetario Internacional                      |`install.packages("imfr")`
+`eurostat`  |Eurostat                                           |`install.packages("eurostat")`
+`ecb`       |Banco Central Europeo                              |`install.packages("ecb")`
+`tidyBDE`   |Banco de España                                    |`install.packages("tidyBDE")`
+`INEbaseR`  |Instituto Nacional de Estadística                  |`remotes::install_github("oddworldng/INEbaseR")`
+`istacr`    |Instituto Canario de Estadística                   |`install.packages("istacr")`
+`istacbaser`|Instituto Canario de Estadística                   |`remotes::install_github("ropenspain/istacbaser")`
+`igebaser`  |Instituto Galego de Estatística                    |`remotes::install_github("jmcartiles/igebaser")`
+`opendataes`|Iniciativa [datos.gob.es](https://datos.gob.es/)   |`remotes::install_github("ropenspain/opendataes")`
+...         | 
+
+---
+
+
+## Otros formatos de datos
+
+* Mediante el botón `Import Dataset` de la pestaña `Environment`
+
+* Mediante el paquete `haven`.
+
+
+```r
+install.packages("haven") 
+dataset &lt;- read_stata() # Stata
+dataset &lt;- read_sav() # SPSS
+dataset &lt;- read_sas() # SAS
+```
+
+## Exportar datos
+
+Hay varias funciones que permiten grabar y más tarde cargar los ficheros ya grabados.
+
+   |Guardar|Leer
+---|:---|:---
+Todas|`save.image()`|`load()`
+Algunos objetos|`save()`|`load()`
+Un objeto|`saveRDS()`, `readr::write_rds()`|`readRDS()`, `readr::read_rds()`
+Csv|`write.csv()`, `readr:write_csv()`| `read.csv()`, `readr::read_csv()`
+Excel|`xlsx::write.xlsx()`|`readr::read_excel()`
+
+---
+
+# Preparación de datos
+
+Una vez cargados los datos, comienza el proceso de procesamiento de los mismos, suele decirse que ocupa en torno al 80% del tiempo del proyecto.
+
+En este curso realizaremos esta tarea mediante el conjunto de paquetes de [tidyverse](https://www.tidyverse.org/).
+
+*The pipe*
+
+ ---
+
+El operador pipe (`%&gt;%`), puede leerse como "entonces" y permite encadenar funciones pasando el elemento que está a la izquierda del pipe a la derecha como un argumento.
+
+
+```r
+library(tidyverse)
+```
+
+
+```r
+data.frame(resultado = mean(1:4))
+```
+
+```
+##   resultado
+## 1       2.5
+```
+
+```r
+1:4 %&gt;%
+  mean %&gt;%
+  data.frame(resultado = .)
+```
+
+```
+##   resultado
+## 1       2.5
+```
+
+
+---
+
+## DPLYR
+
+Es un paquete de R, que forma parte del entorno tidyverse, y nos facilita la manipulación de datos.
+
+*Principales funciones*
+
+ ---
+
+* `filter()`: seleccionar filas
+
+* `arrange()`: ordenar filas
+
+* `rename()`: renombrar variables
+
+* `select()`: seleccionar columnas
+
+* `mutate()`: crear variables
+
+* `summarise()`: resume varios valores en uno
+
+* `group_by()`: agrupar filas
+
+---
+
+A partir del dataframe `encuesta` aplicar las funciones del paquete `dplyr` definidas anteriormente.
+
+* Seleccionar a los encuestados que declaran ser residentes en Canarias.
+
+
+```r
+encuesta.filter &lt;- filter(encuesta, residente == TRUE)
+```
+
+* Ordenar de manera descendente los ingresos.
+
+
+```r
+encuesta.arrange &lt;- arrange(encuesta, desc(ingresos))
+```
+
+* Renombrar la variable `isla` como `isla de residencia`
+
+
+```r
+encuesta.rename &lt;- rename(encuesta, "isla de residencia" = "isla")
+```
+
+* Seleccionar las columnas: `sexo`, `ingresos` e `isla`
+
+
+```r
+encuesta.select &lt;- select(encuesta, c("sexo", "ingresos", "isla"))
+```
+
+* Crear la variable `ccaa` que indica la comunidad autónoma de residencia.
+
+
+```r
+encuesta.mutate &lt;- mutate(encuesta, ccaa = ifelse(residente == TRUE, "Canarias", "Otra CCAA"))
+```
+
+* Resumir el dataframe a una varible que indique el ingreso medio.
+
+
+```r
+encuesta.summarise &lt;- summarise(encuesta, ingreso.medio = mean(ingresos))
+```
+
+* Calcular el ingreso medio por isla de residencia.
+
+
+```r
+encuesta.group_by &lt;- summarise(group_by(encuesta, isla), mean(ingresos))
+```
+
+Aplique las funciones anteriores empleando el operador `%&gt;%`.
+
+---
+
+## Ejercicios
+
+* `filter`
+
+ * Seleccionar los encuestados que son hombres.
+ * Seleccionar los encuestados que son mujeres.
+ * Seleccionar los encuestados con ingresos inferiores a 1000.
+ * Seleccionar los encuestados con ingresos superiores a 1000.
+ * Seleccionar los encuestados no residentes.
+ * Seleccionar los encuestados residentes en Gran Canaria.
+ * Seleccionar los encuestados residentes en Tenerife.
+
+* `arrange`
+
+ * Ordenar la encuesta según la variable de tipo factor `sexo`.
+ * Ordenar la encuesta según la variable de tipo numérico `ingresos`.
+ * Ordenar la encuesta según la variable de tipo lógico `residente`.
+ * Ordenar la encuesta según la variable de tipo caracter `isla`.
+ * Realizar las ordenaciones anteriores de forma descendente.
+
+* `select`
+
+ * Seleccionar todas las variables menos `sexo`.
+ * Seleccionar todas las variables menos `sexo` e `ingresos`.
+ * Seleccionar todas las variables que contengan la letra `e`. (Pista: función `contains()`)
+ * Seleccionar todas las variables que no contengan la letra `e`. (Pista: función `contains()`)
+ * Seleccionar las variables que empiecen con la letra `s`. (Pista: función `starts_with()`)
+ * Seleccionar las variables que terminen con la letra `o`. (Pista: función `end_with()`)
+
+---
+
+* `mutate`
+
+ * Crear la variable `ingresos.2` como los ingresos al cuadrado.
+ * Crear la variable `ingresos.2.res` como los ingresos al cuadrado para los residentes. (Pista: función `case_when()`)
+ * Crear la variable `ingresos.cat` que toma valor 0 si `ingresos &lt; 1000`, 1 si `ingresos &gt;= 1000 &amp; ingresos &lt; 2000` y 2 si `ingresos &gt;= 2000`. (Pista: función `case_when()`)
+ * Reemplazar en la variable `isla` los na por "Otra CCAA". (Pista: función `replace_na()`)
+ 
+* `summarise`
+
+ * Resumir el dataframe en la variable `ingreso.total` que indica la suma de ingreso de los encuestados.
+ * Resumir el dataframe en la variable `ingreso.dt` que indica la desviación típica del ingreso de los encuestados.
+ * Resumir el dataframe en la variable `resindentes.media` que indica la cuota de residentes entre los encuestados.
+
+* `group_by`
+
+ * Crear la variable `ingreso.medio.isla` que indica el promedio de ingresos por isla de residencia.
+ * Crear la variable `ingreso.total.isla` que indica el promedio de ingresos por isla de residencia.
+ * Crear la variable `encuestados.isla` que indica el total de encuestados por isla de residencia. (Pista: función `n()`)
+ * Crear la variable `encuestados.freq.isla` que indica la cuota de encuestados por isla de residencia. (Pista: función `n()`)
+
+---
+
+## De ancho a largo y de largo a ancho
+
+En ciencias sociales los datos suelen tener una estructura tabular, es decir, se organizan en filas y columnas. Donde cada fila indica una unidad de análisis y cada columna una variable.
+
+Es preciso indicar que las variables se pueden agrupar en variables de identificación y de medida.
+
+Así, podemos distinguir entre datos en formato ancho, cuando cada columna es una variable, y formato largo cuando cada fila es una combinación de variables de identificación.
+
+Para trabajar con las funciones tidyverse es más útil tener los datos en formato largo. 
+
+Pero en otras ocasiones puede ser de mayor interés tener los datos en formato ancho, veamos como cambiar de uno a otro.
+
+.pull-left[
+### De largo a ancho
+
+&lt;!-- &lt;figure&gt; --&gt;
+&lt;!--     &lt;div&gt; --&gt;
+&lt;!--       &lt;img src="img/largo_a_ancho.png"&gt; --&gt;
+&lt;!--     &lt;/div&gt; --&gt;
+&lt;!--     &lt;figcaption"&gt;Fuente: &lt;a href="https://r4ds.had.co.nz"&gt;R for Data Science&lt;/a&gt;&lt;/figcaption&gt; --&gt;
+&lt;!-- &lt;/figure&gt; --&gt;
+]
+
+.pull-right[
+### De ancho a largo
+&lt;!-- &lt;figure&gt; --&gt;
+&lt;!--     &lt;div&gt; --&gt;
+&lt;!--       &lt;img src="img/ancho_a_largo.png"&gt; --&gt;
+&lt;!--     &lt;/div&gt; --&gt;
+&lt;!--     &lt;figcaption"&gt;Fuente: &lt;a href="https://r4ds.had.co.nz"&gt;R for Data Science&lt;/a&gt;&lt;/figcaption&gt; --&gt;
+&lt;!-- &lt;/figure&gt; --&gt;
+
+]
+
+&lt;figure&gt;
+    &lt;div&gt;
+      &lt;img src="img/pivoting.png"&gt;
+    &lt;/div&gt;
+    &lt;figcaption"&gt;Fuente: &lt;a href="https://r4ds.had.co.nz"&gt;R for Data Science&lt;/a&gt;&lt;/figcaption&gt;
+&lt;/figure&gt;
+
+---
+
+* Dataframe de ejemplo:
+
+
+```r
+df.largo &lt;- data.frame(
+  poblacion = c(1000, 2000, 3000, 4000, 5000, 6000),
+  region = c("A", "A", "A", "B", "B", "B"),
+  periodo = c(rep(seq(1,3,1), 2))
+)
+```
+
+* De largo a ancho.
+
+
+```r
+df.ancho &lt;- pivot_wider(df.largo, id_cols = region,
+            names_from = "periodo", names_prefix = "periodo_", values_from = "poblacion")
+df.ancho
+```
+
+```
+## # A tibble: 2 x 4
+##   region periodo_1 periodo_2 periodo_3
+##   &lt;chr&gt;      &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+## 1 A           1000      2000      3000
+## 2 B           4000      5000      6000
+```
+
+* De ancho a largo.
+
+
+```r
+df.largo &lt;- pivot_longer(df.ancho,
+                         cols = c(starts_with("periodo")), names_to = "periodo",
+                         names_prefix = "periodo_", values_to = "poblacion")
+df.largo
+```
+
+```
+## # A tibble: 6 x 3
+##   region periodo poblacion
+##   &lt;chr&gt;  &lt;chr&gt;       &lt;dbl&gt;
+## 1 A      1            1000
+## 2 A      2            2000
+## 3 A      3            3000
+## 4 B      1            4000
+## 5 B      2            5000
+## 6 B      3            6000
+```
+
+
+---
+
+# Caso práctico: trabajar con microdatos
+
+Descargar los [microdatos de 2019 de la Encuesta de Gasto Turístico del ISTAC, según la metodología 2018](http://www.gobiernodecanarias.org/istac/estadisticas/sectorservicios/hosteleriayturismo/demanda/C00028A.html).
+
+* Cargar los microdatos.
+
+
+```r
+df.microdatos.2019 &lt;- read_csv2("data/GASTO_TURISTICO_2019.csv")
+```
+
+* Mostrar la estructura de los datos.
+
+
+```r
+glimpse(df.microdatos.2019)
+```
+
+```
+## Rows: 38,761
+## Columns: 168
+## $ ID                               &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12~
+## $ NUMERO_CUESTIONARIO              &lt;dbl&gt; 1, 10, 100, 101, 102, 103, 104, 105, ~
+## $ OLA                              &lt;dbl&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1~
+## $ AEROPUERTO_ORIGEN                &lt;chr&gt; "ACE", "ACE", "ACE", "ACE", "ACE", "A~
+## $ PAIS_DESTINO                     &lt;chr&gt; "FRA250", "DEU276", "IRL372", "IRL372~
+## $ SEXO                             &lt;dbl&gt; 1, 1, 1, 1, 1, 6, 1, 6, 6, 6, 1, 6, 1~
+## $ EDAD                             &lt;dbl&gt; 67, 40, 51, 60, 69, 24, 49, 47, 31, 7~
+## $ NACIONALIDAD                     &lt;chr&gt; "FRA250", "DEU276", "IRL372", "IRL372~
+## $ PAIS_RESIDENCIA                  &lt;chr&gt; "FRA250", "DEU276", "IRL372", "IRL372~
+## $ PROPOSITO                        &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ MOTIVACION_1                     &lt;dbl&gt; 2, 4, 4, 2, 1, 1, 1, 4, 4, 1, 5, 2, 2~
+## $ IMPORTANCIA_CLIMA                &lt;dbl&gt; 4, 4, 4, 3, 4, 4, 4, 4, 4, 4, 4, 4, 4~
+## $ IMPORTANCIA_PLAYAS               &lt;dbl&gt; 4, 4, 4, 2, 4, 4, 2, 4, 3, 3, 2, 2, 3~
+## $ IMPORTANCIA_MAR                  &lt;dbl&gt; 4, 4, 3, 2, 2, 3, 3, 4, 3, 3, 4, 2, 4~
+## $ IMPORTANCIA_PAISAJES             &lt;dbl&gt; 4, 4, 2, 4, 1, 3, 1, 2, 3, 4, 4, 4, 3~
+## $ IMPORTANCIA_ENTORNO_AMBIENTAL    &lt;dbl&gt; 4, 3, 1, 1, 2, 3, 2, 2, 3, 4, 3, 4, 3~
+## $ IMPORTANCIA_RED_SENDEROS         &lt;dbl&gt; 3, 1, 1, 1, 1, 1, 1, 2, 1, 1, 3, 3, 2~
+## $ IMPORTANCIA_OFERTA_ALOJATIVA     &lt;dbl&gt; 3, 4, 3, 2, 4, 3, 4, 4, 4, 3, 4, 4, 3~
+## $ IMPORTANCIA_PATRIMONIO_HISTORICO &lt;dbl&gt; 3, 3, 2, 2, 1, 2, 1, 3, 1, 2, 4, 3, 2~
+## $ IMPORTANCIA_OFERTA_CULTURAL      &lt;dbl&gt; 2, 3, 1, 2, 3, 3, 1, 3, 1, 2, 4, 3, 3~
+## $ IMPORTANCIA_DIVERSION            &lt;dbl&gt; 2, 3, 3, 2, 3, 4, 3, 4, 3, 2, 2, 3, 3~
+## $ IMPORTANCIA_OCIO_NOCTURNO        &lt;dbl&gt; 1, 1, 1, 1, 3, 2, 3, 2, 1, 1, 2, 2, 1~
+## $ IMPORTANCIA_OFERTA_COMERCIAL     &lt;dbl&gt; 3, 3, 1, 1, 3, 2, 2, 2, 1, 2, 2, 3, 2~
+## $ IMPORTANCIA_GASTRONOMIA          &lt;dbl&gt; 2, 4, 3, 2, 2, 4, 3, 4, 2, 2, 4, 3, 2~
+## $ IMPORTANCIA_VIAJE_SENCILLO       &lt;dbl&gt; 4, 4, 3, 2, 4, 4, 4, 4, 1, 3, 3, 3, 3~
+## $ IMPORTANCIA_SEGURIDAD            &lt;dbl&gt; 4, 3, 4, 1, 4, 3, 4, 4, 4, 4, 3, 4, 3~
+## $ IMPORTANCIA_TRANQUILIDAD         &lt;dbl&gt; 4, 3, 4, 2, 4, 4, 4, 4, 4, 4, 3, 4, 3~
+## $ IMPORTANCIA_EUROPA               &lt;dbl&gt; 4, 4, 4, 1, 4, 3, 3, 4, 4, 4, 3, 4, 3~
+## $ IMPORTANCIA_PRECIO               &lt;dbl&gt; 4, 4, 3, 3, 4, 4, 3, 4, 4, 3, 3, 4, 2~
+## $ IMPORTANCIA_EXOTISMO             &lt;dbl&gt; 3, 2, 1, 2, 3, 2, 2, 1, 4, 3, 3, 2, 2~
+## $ IMPORTANCIA_AUTENTICIDAD         &lt;dbl&gt; 4, 3, 3, 2, 3, 2, 2, 3, 3, 3, 4, 3, 2~
+## $ ANTELACION_VIAJE                 &lt;dbl&gt; 5, 5, 5, 4, 6, 5, 5, 5, 6, 6, 5, 6, 6~
+## $ CANAL_VISITAS_ANTERIORES         &lt;dbl&gt; 1, 1, 1, 1, 6, 6, 1, 1, 1, 6, 1, 6, 1~
+## $ CANAL_AMIGOS_FAMILIARES          &lt;dbl&gt; 6, 6, 6, 1, 1, 1, 6, 6, 6, 6, 1, 6, 6~
+## $ CANAL_INTERNET_REDES_SOCIALES    &lt;dbl&gt; 6, 1, 6, 6, 6, 1, 1, 1, 6, 6, 6, 6, 6~
+## $ CANAL_MEDIOS_COMUNICACION        &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ CANAL_GUIAS_REVISTAS             &lt;dbl&gt; 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ CANAL_BLOGS_FOROS                &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ CANAL_CANALES_TV                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ CANAL_TOUROPERADOR_AGENCIA_VIAJE &lt;dbl&gt; 1, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 1, 1~
+## $ CANAL_AAPP_ASOCIACIONES          &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ CANAL_OTROS                      &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 1, 6, 6~
+## $ COMPANNIA_SOLO                   &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ COMPANNIA_PAREJA                 &lt;dbl&gt; 6, 1, 6, 1, 1, 1, 6, 6, 6, 6, 6, 6, 1~
+## $ COMPANNIA_HIJOS                  &lt;dbl&gt; 1, 1, 6, 6, 6, 6, 6, 1, 1, 6, 1, 6, 6~
+## $ COMPANNIA_OTROS_FAMILIARES       &lt;dbl&gt; 6, 6, 1, 6, 6, 6, 1, 6, 6, 1, 6, 1, 6~
+## $ COMPANNIA_AMIGOS                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 6~
+## $ COMPANNIA_COMPANNEROS            &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ COMPANNIA_VIAJE_ORGANZ           &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6~
+## $ INTERNET_PAQUETE_TURISTICO       &lt;dbl&gt; 1, 1, 1, 1, -7, 1, 1, 2, 1, 1, 3, 1, ~
+## $ INTERNET_VUELOS                  &lt;dbl&gt; 1, 3, 3, 1, -7, 3, 1, 2, 3, 1, 3, 1, ~
+## $ INTERNET_ALOJAMIENTO             &lt;dbl&gt; 1, 3, 1, 1, 2, 3, 1, 2, 3, 1, 3, 1, 2~
+## $ INTERNET_TRANSPORTE              &lt;dbl&gt; 1, 1, 1, 1, -7, 1, 1, 1, 3, 1, 2, 1, ~
+## $ INTERNET_RESTAURANTES            &lt;dbl&gt; 1, 2, 1, 1, -7, 2, 1, 1, 1, 1, -7, 1,~
+## $ INTERNET_EXCURSIONES             &lt;dbl&gt; 1, 3, 1, 1, -7, 1, 1, 1, 1, 2, 3, 1, ~
+## $ INTERNET_ACTIVIDADES             &lt;dbl&gt; 1, 2, 1, 1, -7, 1, 1, 1, 1, 1, 3, 1, ~
+## $ CONEXION_INTERNET                &lt;dbl&gt; 3, 4, 3, 3, 1, 5, 3, 4, 1, 4, 5, 4, 1~
+## $ CONEXION_CONSULTAR_PLANOS        &lt;dbl&gt; 1, 1, 6, 1, -1, 1, 6, 1, -1, 6, 1, 6,~
+## $ CONEXION_CONSULTAR               &lt;dbl&gt; 6, 1, 6, 6, -1, 1, 1, 1, -1, 6, 1, 6,~
+## $ CONEXION_COMPARTIR               &lt;dbl&gt; 1, 1, 1, 6, -1, 1, 6, 1, -1, 1, 1, 1,~
+## $ CONEXION_DESCARGAR_APP           &lt;dbl&gt; 6, 1, 6, 6, -1, 6, 6, 6, -1, 6, 6, 6,~
+## $ CONEXION_OTROS                   &lt;dbl&gt; 6, 1, 1, 1, -1, 6, 6, 6, -1, 6, 6, 1,~
+## $ NOCHES_LZ                        &lt;dbl&gt; 7, 7, 10, 12, 9, 6, 7, 10, 7, 7, 7, 1~
+## $ NOCHES_FV                        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ NOCHES_GC                        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ NOCHES_TF                        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ NOCHES_LG                        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ NOCHES_LP                        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ NOCHES_EH                        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ NOCHES_CRUCERO                   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ NOCHES                           &lt;dbl&gt; 7, 7, 10, 12, 9, 6, 7, 10, 7, 7, 7, 1~
+## $ SIN_PERNOCTAR_LZ                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ SIN_PERNOCTAR_FV                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 1, 6, 6, 6, 6, 6~
+## $ SIN_PERNOCTAR_GC                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ SIN_PERNOCTAR_TF                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ SIN_PERNOCTAR_LG                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ SIN_PERNOCTAR_LP                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ SIN_PERNOCTAR_EH                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ ISLA                             &lt;chr&gt; "ES708", "ES708", "ES708", "ES708", "~
+## $ ALOJ_CATEG                       &lt;dbl&gt; 2, 5, 2, 4, 2, 2, 3, 4, 1, 2, 4, 5, 2~
+## $ PERSONAS_0_2                     &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ PERSONAS_3_12                    &lt;dbl&gt; 0, 3, 1, 0, 0, 0, 0, 2, 2, 2, 0, 0, 0~
+## $ PERSONAS_13_15                   &lt;dbl&gt; 1, 0, 1, 0, 0, 0, 1, 1, 0, 1, 0, 0, 0~
+## $ PERSONAS_16_64                   &lt;dbl&gt; 1, 2, 2, 2, 0, 2, 2, 2, 2, 3, 2, 0, 0~
+## $ PERSONAS_65_O_MAS                &lt;dbl&gt; 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 1, 2~
+## $ PERSONAS_TOTAL                   &lt;dbl&gt; 4, 5, 4, 2, 2, 2, 3, 5, 4, 8, 2, 1, 2~
+## $ COMPRA_VUELO                     &lt;dbl&gt; 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 2~
+## $ COMPRA_ALOJ                      &lt;dbl&gt; 2, 2, 1, 1, 2, 2, 1, 1, 1, 2, 1, 2, 2~
+## $ PAQUETE_TURISTICO                &lt;dbl&gt; 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 2, 1, 1~
+## $ COSTE_PAQUETE_EUROS              &lt;dbl&gt; 1149.96, 0.00, 0.00, 0.00, 0.00, 0.00~
+## $ SERV_NINGUNO                     &lt;dbl&gt; 1, -1, -1, -1, -1, -1, -1, -1, -1, 6,~
+## $ SERV_EXCURSIONES                 &lt;dbl&gt; 6, -1, -1, -1, -1, -1, -1, -1, -1, 6,~
+## $ SERV_TRANSFERS                   &lt;dbl&gt; 6, -1, -1, -1, -1, -1, -1, -1, -1, 1,~
+## $ SERV_ALQ_VEHICULO                &lt;dbl&gt; 6, -1, -1, -1, -1, -1, -1, -1, -1, 6,~
+## $ SERV_OTROS                       &lt;dbl&gt; 6, -1, -1, -1, -1, -1, -1, -1, -1, 6,~
+## $ COSTE_VUELOS_EUROS               &lt;dbl&gt; 451.0143, 1550.0705, 1800.0000, 999.9~
+## $ GRATIS_VUELOS                    &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ COSTE_ALOJ_EUROS                 &lt;dbl&gt; 698.9457, 650.0295, 2296.0000, 999.96~
+## $ GRATIS_ALOJ                      &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ TIPO_PENSION                     &lt;dbl&gt; 4, 1, 3, 1, 1, 2, 2, 1, 5, 5, 5, 5, 5~
+## $ GASTO_EUROS                      &lt;dbl&gt; 500.0800, 500.1500, 420.0000, 1000.08~
+## $ DESGLOSE_EXTRA_ALOJ              &lt;dbl&gt; 0.000000, 0.000000, 0.000000, 0.00000~
+## $ DESGLOSE_PASAJES_ISLAS           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 20, 0, 0, 0, 0, ~
+## $ DESGLOSE_TAXI                    &lt;dbl&gt; 0.000000, 0.000000, 28.571429, 0.0000~
+## $ DESGLOSE_ALQ_VEHIC               &lt;dbl&gt; 25.000000, 0.000000, 0.000000, 30.000~
+## $ DESGLOSE_TRANSP_PUBLICO          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ DESGLOSE_ALIM_SUPER              &lt;dbl&gt; 0.000000, 100.000000, 0.000000, 30.00~
+## $ DESGLOSE_RESTAURANT              &lt;dbl&gt; 0.00000, 0.00000, 71.42857, 10.00000,~
+## $ DESGLOSE_EXCURS_ORGANIZ          &lt;dbl&gt; 0.000000, 0.000000, 0.000000, 30.0000~
+## $ DESGLOSE_DEPORTES                &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 25, 0, ~
+## $ DESGLOSE_ACTIV_CULTURAL          &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ DESGLOSE_MUSEOS                  &lt;dbl&gt; 25.00000, 0.00000, 0.00000, 0.00000, ~
+## $ DESGLOSE_PARQUES_OCIO            &lt;dbl&gt; 0.000000, 0.000000, 0.000000, 0.00000~
+## $ DESGLOSE_DISCOTECAS              &lt;dbl&gt; 0.00000, 0.00000, 0.00000, 0.00000, 5~
+## $ DESGLOSE_SALUD                   &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ DESGLOSE_SOUVENIRS               &lt;dbl&gt; 50.000000, 0.000000, 0.000000, 0.0000~
+## $ DESGLOSE_BIENES_INMUEBLES        &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ DESGLOSE_OTRAS_COMPRAS           &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ DESGLOSE_FARMACIA                &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0~
+## $ DESGLOSE_OTROS_GASTOS            &lt;dbl&gt; 0.00000, 0.00000, 0.00000, 0.00000, 0~
+## $ HORAS_DIA                        &lt;dbl&gt; 8, 8, 3, 10, 6, 6, 5, 5, 10, 14, 10, ~
+## $ ACTIV_PLAYA                      &lt;dbl&gt; 1, 6, 1, 1, 1, 1, 6, 1, 6, 6, 6, 6, 1~
+## $ ACTIV_PISCINA                    &lt;dbl&gt; 1, 6, 1, 6, 1, 1, 1, 1, 1, 1, 6, 1, 1~
+## $ ACTIV_PASEAR                     &lt;dbl&gt; 1, 6, 1, 1, 1, 1, 1, 1, 6, 6, 6, 6, 1~
+## $ ACTIV_ISLA                       &lt;dbl&gt; 1, 6, 6, 1, 6, 6, 6, 1, 6, 6, 1, 6, 6~
+## $ ACTIV_EXCURS_ORGANIZ             &lt;dbl&gt; 1, 6, 1, 1, 6, 6, 6, 6, 6, 1, 1, 1, 6~
+## $ ACTIV_EXCURS_MAR                 &lt;dbl&gt; 6, 6, 1, 6, 6, 6, 1, 6, 6, 6, 6, 6, 6~
+## $ ACTIV_ASTRONOMIA                 &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ ACTIV_MUSEOS                     &lt;dbl&gt; 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 6~
+## $ ACTIV_POPULAR                    &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 6~
+## $ ACTIV_GASTRONOMIA_CANARIA        &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 1, 6, 6, 1, 6, 6~
+## $ ACTIV_PARQUES_OCIO               &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6~
+## $ ACTIV_OCIO                       &lt;dbl&gt; 6, 6, 6, 6, 1, 1, 1, 6, 6, 6, 6, 6, 6~
+## $ ACTIV_BELLEZA                    &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ ACTIV_DEPORTIVA                  &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6~
+## $ ACTIV_NATURALEZA                 &lt;dbl&gt; 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1~
+## $ ACTIV_MAR                        &lt;dbl&gt; 6, 6, 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1~
+## $ VISITA_SITIO_1                   &lt;dbl&gt; 1, 6, 6, 1, 6, 6, 6, 6, 6, 6, 1, 6, 6~
+## $ VISITA_SITIO_2                   &lt;dbl&gt; 1, 6, 6, 1, 6, 6, 6, 6, 6, 1, 1, 1, 6~
+## $ VISITA_SITIO_3                   &lt;dbl&gt; 1, 6, 6, 1, 6, 6, 6, 6, 6, 6, 1, 6, 6~
+## $ VISITA_SITIO_4                   &lt;dbl&gt; 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 6~
+## $ VISITA_SITIO_5                   &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6~
+## $ VISITA_SITIO_6                   &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6, 6~
+## $ VISITA_SITIO_7                   &lt;dbl&gt; 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 6~
+## $ VISITA_SITIO_8                   &lt;dbl&gt; 1, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 1, 6~
+## $ VISITA_SITIO_9                   &lt;dbl&gt; 6, 6, 6, 1, 6, 6, 6, 1, 6, 6, 1, 1, 6~
+## $ VISITA_SITIO_10                  &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6~
+## $ VISITA_SITIO_11                  &lt;dbl&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 1, 6~
+## $ PRIMERA_VISITA_CANARIAS          &lt;dbl&gt; 6, 6, 6, 6, 1, 1, 6, 6, 6, 1, 6, 6, 6~
+## $ VISITAS_TOTAL_CANARIAS           &lt;dbl&gt; 3, 1, 4, 1, -1, -1, 8, 2, 3, -1, 1, 3~
+## $ VISITAS_CANARIAS_5_ANNOS         &lt;dbl&gt; 3, 0, 3, 1, -1, -1, 3, 0, 3, -1, 1, 3~
+## $ VISITAS_TOTAL_LZ                 &lt;dbl&gt; 2, 1, 3, 1, -1, -1, 5, 0, 1, -1, 0, 1~
+## $ VISITAS_TOTAL_FV                 &lt;dbl&gt; 1, 0, 0, 0, -1, -1, 3, 0, 0, -1, 1, 2~
+## $ VISITAS_TOTAL_GC                 &lt;dbl&gt; 1, 0, 0, 1, -1, -1, 0, 2, 0, -1, 0, 0~
+## $ VISITAS_TOTAL_TF                 &lt;dbl&gt; 3, 0, 4, 0, -1, -1, 0, 0, 2, -1, 0, 0~
+## $ VISITAS_TOTAL_LG                 &lt;dbl&gt; 0, 0, 0, 0, -1, -1, 0, 0, 0, -1, 0, 0~
+## $ VISITAS_TOTAL_LP                 &lt;dbl&gt; 0, 1, 0, 0, -1, -1, 0, 0, 0, -1, 0, 0~
+## $ VISITAS_TOTAL_EH                 &lt;dbl&gt; 0, 0, 0, 0, -1, -1, 0, 0, 0, -1, 0, 0~
+## $ SATISFACCION                     &lt;dbl&gt; 9, 10, 10, 8, 9, 9, 9, 9, 9, 10, 8, 8~
+## $ CALIFICAR_EXPERIENCIA            &lt;dbl&gt; 3, 3, 3, 3, 3, 4, 4, 4, 3, 4, 3, 3, 3~
+## $ VOLVER_A_CANARIAS                &lt;dbl&gt; 5, 10, 6, 5, 9, 9, 10, 10, 8, 8, 8, 8~
+## $ RECOMENDAR_CANARIAS              &lt;dbl&gt; 8, 10, 9, 7, 9, 9, 10, 10, 7, 10, 8, ~
+## $ NIVEL_EDUCATIVO                  &lt;dbl&gt; 3, 4, 4, 4, 2, 4, 4, 4, 4, 4, 3, 3, 4~
+## $ SITUACION_LABORAL                &lt;dbl&gt; 7, 1, 1, 1, 7, 2, 6, 1, 2, 7, 1, 7, 7~
+## $ INGRESOS                         &lt;dbl&gt; 2, 4, 2, 2, 1, 1, 4, 4, 2, 2, 2, 1, 2~
+## $ PERSONAS_HOGAR                   &lt;dbl&gt; 2, 2, 4, 5, 2, 1, 4, 5, 4, 2, 2, 1, 2~
+## $ TRIMESTRE                        &lt;chr&gt; "2019Q2", "2019Q2", "2019Q2", "2019Q2~
+## $ PESO                             &lt;dbl&gt; 519.4322, 428.1090, 348.4510, 238.445~
+```
+
+---
+
+* Seleccionar las columnas: `SEXO`, `PAIS_RESIDENCIA`, `EDAD`, `NOCHES`, `PERSONAS_16_64`, `PERSONAS_65_O_MAS`, `GASTO_EUROS`, `COSTE_VUELOS_EUROS`, `COSTE_ALOJ_EUROS`, `ISLA`, `ALOJ_CATEG`, `ANTELACION_VIAJE`, `TRIMESTRE` y `PESO`.  
+
+  Para conocer las variables disponibles en el fichero es recomendable mirar el fichero `Diseño de registro EGT 2018.xls`.
+
+
+```r
+df.microdatos.2019 &lt;- select(df.microdatos.2019, c("SEXO", "PAIS_RESIDENCIA", "EDAD", "NOCHES",
+                                                   "PERSONAS_16_64", "PERSONAS_65_O_MAS",
+                                                   "GASTO_EUROS", "COSTE_VUELOS_EUROS",
+                                                   "COSTE_ALOJ_EUROS", "ISLA", "ALOJ_CATEG",
+                                                   "ANTELACION_VIAJE", "TRIMESTRE", "PESO"))
+```
+
+* Mostrar la estructura de los datos. 
+
+
+```r
+glimpse(df.microdatos.2019)
+```
+
+```
+## Rows: 38,761
+## Columns: 14
+## $ SEXO               &lt;dbl&gt; 1, 1, 1, 1, 1, 6, 1, 6, 6, 6, 1, 6, 1, 6, 1, 1, 6, ~
+## $ PAIS_RESIDENCIA    &lt;chr&gt; "FRA250", "DEU276", "IRL372", "IRL372", "IRL372", "~
+## $ EDAD               &lt;dbl&gt; 67, 40, 51, 60, 69, 24, 49, 47, 31, 70, 57, 67, 72,~
+## $ NOCHES             &lt;dbl&gt; 7, 7, 10, 12, 9, 6, 7, 10, 7, 7, 7, 14, 14, 7, 7, 7~
+## $ PERSONAS_16_64     &lt;dbl&gt; 1, 2, 2, 2, 0, 2, 2, 2, 2, 3, 2, 0, 0, 2, 1, 2, 0, ~
+## $ PERSONAS_65_O_MAS  &lt;dbl&gt; 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 1, 2, 0, 0, 0, 2, ~
+## $ GASTO_EUROS        &lt;dbl&gt; 500.0800, 500.1500, 420.0000, 1000.0800, 1000.0800,~
+## $ COSTE_VUELOS_EUROS &lt;dbl&gt; 451.0143, 1550.0705, 1800.0000, 999.9600, 750.0214,~
+## $ COSTE_ALOJ_EUROS   &lt;dbl&gt; 698.9457, 650.0295, 2296.0000, 999.9600, 650.0186, ~
+## $ ISLA               &lt;chr&gt; "ES708", "ES708", "ES708", "ES708", "ES708", "ES708~
+## $ ALOJ_CATEG         &lt;dbl&gt; 2, 5, 2, 4, 2, 2, 3, 4, 1, 2, 4, 5, 2, 4, 2, 4, 2, ~
+## $ ANTELACION_VIAJE   &lt;dbl&gt; 5, 5, 5, 4, 6, 5, 5, 5, 6, 6, 5, 6, 6, 4, 2, 6, 6, ~
+## $ TRIMESTRE          &lt;chr&gt; "2019Q2", "2019Q2", "2019Q2", "2019Q2", "2019Q2", "~
+## $ PESO               &lt;dbl&gt; 519.4322, 428.1090, 348.4510, 238.4456, 465.9586, 1~
+```
+
+---
+
+* Reemplazar el código de la variable `SEXO` por la etiqueta correspondiente de acuerdo al diseño de registro.
+
+ * Leer la pestaña `Sexo` del fichero `Diseño de registro EGT 2018.xls`.
+ 
+     * Eliminar variable `OBSERVACIONES`. 
+     * Renombrar variables `CÓDIGOS` y `ETIQUETAS` a `code` y `label`.
+     * Saltar la primera fila.
+     * Eliminar valores NA.
+     
+ * Sustituir el código por la etiqueta.
+ 
+     * Identificar la correspondencia del código de `df.microdatos.2019` en `df.disenyo.registro.sexo`.
+     * Reemplazar la variable `SEXO`, que muestra los códigos, por la variable `label`.
+     * Transformar la variable `label` de caracter a factor
+
+
+```r
+df.disenyo.registro.sexo &lt;- read_excel("data/Diseño de registro EGT 2018.xls",
+                                       sheet = "Sexo", skip = 1) %&gt;%
+  select("code" = "CÓDIGOS", "label" = "ETIQUETA") %&gt;%
+    filter(!is.na(code))
+```
+ 
+
+```r
+i.code &lt;- match(df.microdatos.2019$SEXO, df.disenyo.registro.sexo$code)
+df.microdatos.2019 &lt;- df.microdatos.2019 %&gt;%
+  mutate("SEXO" = as.factor(df.disenyo.registro.sexo$label[i.code]))
+```
+
+Aplique el procedimiento anterior para las variables: `PAIS_RESIDENCIA`, `ISLA` y `ALOJ_CATEG`.
+
+---
+
+* Mostrar la estructura de los datos. 
+
+
+```r
+glimpse(df.microdatos.2019)
+```
+
+```
+## Rows: 38,761
+## Columns: 14
+## $ SEXO               &lt;fct&gt; HOMBRE, HOMBRE, HOMBRE, HOMBRE, HOMBRE, MUJER, HOMB~
+## $ PAIS_RESIDENCIA    &lt;chr&gt; "FRA250", "DEU276", "IRL372", "IRL372", "IRL372", "~
+## $ EDAD               &lt;dbl&gt; 67, 40, 51, 60, 69, 24, 49, 47, 31, 70, 57, 67, 72,~
+## $ NOCHES             &lt;dbl&gt; 7, 7, 10, 12, 9, 6, 7, 10, 7, 7, 7, 14, 14, 7, 7, 7~
+## $ PERSONAS_16_64     &lt;dbl&gt; 1, 2, 2, 2, 0, 2, 2, 2, 2, 3, 2, 0, 0, 2, 1, 2, 0, ~
+## $ PERSONAS_65_O_MAS  &lt;dbl&gt; 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 1, 2, 0, 0, 0, 2, ~
+## $ GASTO_EUROS        &lt;dbl&gt; 500.0800, 500.1500, 420.0000, 1000.0800, 1000.0800,~
+## $ COSTE_VUELOS_EUROS &lt;dbl&gt; 451.0143, 1550.0705, 1800.0000, 999.9600, 750.0214,~
+## $ COSTE_ALOJ_EUROS   &lt;dbl&gt; 698.9457, 650.0295, 2296.0000, 999.9600, 650.0186, ~
+## $ ISLA               &lt;chr&gt; "ES708", "ES708", "ES708", "ES708", "ES708", "ES708~
+## $ ALOJ_CATEG         &lt;dbl&gt; 2, 5, 2, 4, 2, 2, 3, 4, 1, 2, 4, 5, 2, 4, 2, 4, 2, ~
+## $ ANTELACION_VIAJE   &lt;dbl&gt; 5, 5, 5, 4, 6, 5, 5, 5, 6, 6, 5, 6, 6, 4, 2, 6, 6, ~
+## $ TRIMESTRE          &lt;chr&gt; "2019Q2", "2019Q2", "2019Q2", "2019Q2", "2019Q2", "~
+## $ PESO               &lt;dbl&gt; 519.4322, 428.1090, 348.4510, 238.4456, 465.9586, 1~
+```
+
+---
+
+* Crear una función para cambiar los códigos por etiquetas.
+
+  Los parámetros de la función serán:
+   
+   * `var_variable`. Indica la variable cuyos códigos se van a reemplazar.
+   * `var_ruta`. Indica la ruta en la que se encuentra el fichero `Diseño de registro EGT 2018.xls`.
+   * `var_sheet`. Indica la hoja de EXCEL en la que se encuentra la relación de código y etiqueta.
+   * `var_factor`. Indica si la variable es de tipo caracter o factor, por defecto caracter.
+
+
+```r
+get_label &lt;- function(var_variable, var_sheet, var_ruta, var_factor = FALSE) {
+  
+  df.disenyo.registro.tmp &lt;- read_excel(var_ruta, sheet = var_sheet, skip = 1) %&gt;%
+    select("code" = "CÓDIGOS", "label" = "ETIQUETA") %&gt;%
+    filter(!is.na(code))
+  
+  i.code &lt;- match(var_variable, df.disenyo.registro.tmp$code)
+  
+  v.result &lt;- df.disenyo.registro.tmp$label[i.code]
+  
+  if(var_factor == TRUE) v.result &lt;- as.factor(v.result)
+  
+  return(v.result)
+
+}
+```
+
+* Aplicar la función a la variable `PAIS_RESIDENCIA`.
+
+
+```r
+df.microdatos.2019 &lt;- df.microdatos.2019 %&gt;%
+  mutate(`PAIS_RESIDENCIA` = get_label(
+    var_variable = `PAIS_RESIDENCIA`,
+    var_sheet = "País2",
+    var_ruta = "data/Diseño de registro EGT 2018.xls")
+)
+```
+
+---
+
+* Mostrar la estructura de los datos. 
+
+
+```r
+glimpse(df.microdatos.2019)
+```
+
+```
+## Rows: 38,761
+## Columns: 14
+## $ SEXO               &lt;fct&gt; HOMBRE, HOMBRE, HOMBRE, HOMBRE, HOMBRE, MUJER, HOMB~
+## $ PAIS_RESIDENCIA    &lt;chr&gt; "FRANCIA", "ALEMANIA", "IRLANDA", "IRLANDA", "IRLAN~
+## $ EDAD               &lt;dbl&gt; 67, 40, 51, 60, 69, 24, 49, 47, 31, 70, 57, 67, 72,~
+## $ NOCHES             &lt;dbl&gt; 7, 7, 10, 12, 9, 6, 7, 10, 7, 7, 7, 14, 14, 7, 7, 7~
+## $ PERSONAS_16_64     &lt;dbl&gt; 1, 2, 2, 2, 0, 2, 2, 2, 2, 3, 2, 0, 0, 2, 1, 2, 0, ~
+## $ PERSONAS_65_O_MAS  &lt;dbl&gt; 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 1, 2, 0, 0, 0, 2, ~
+## $ GASTO_EUROS        &lt;dbl&gt; 500.0800, 500.1500, 420.0000, 1000.0800, 1000.0800,~
+## $ COSTE_VUELOS_EUROS &lt;dbl&gt; 451.0143, 1550.0705, 1800.0000, 999.9600, 750.0214,~
+## $ COSTE_ALOJ_EUROS   &lt;dbl&gt; 698.9457, 650.0295, 2296.0000, 999.9600, 650.0186, ~
+## $ ISLA               &lt;chr&gt; "ES708", "ES708", "ES708", "ES708", "ES708", "ES708~
+## $ ALOJ_CATEG         &lt;dbl&gt; 2, 5, 2, 4, 2, 2, 3, 4, 1, 2, 4, 5, 2, 4, 2, 4, 2, ~
+## $ ANTELACION_VIAJE   &lt;dbl&gt; 5, 5, 5, 4, 6, 5, 5, 5, 6, 6, 5, 6, 6, 4, 2, 6, 6, ~
+## $ TRIMESTRE          &lt;chr&gt; "2019Q2", "2019Q2", "2019Q2", "2019Q2", "2019Q2", "~
+## $ PESO               &lt;dbl&gt; 519.4322, 428.1090, 348.4510, 238.4456, 465.9586, 1~
+```
+
+* Aplicar la función a la variable `ISLA`.
+
+
+```r
+df.microdatos.2019 &lt;- df.microdatos.2019 %&gt;%
+  mutate(`ISLA` = get_label(
+    var_variable = `ISLA`,
+    var_sheet = "Isla",
+    var_ruta = "data/Diseño de registro EGT 2018.xls")
+)
+```
+
+---
+
+* Mostrar la estructura de los datos. 
+
+
+```r
+glimpse(df.microdatos.2019)
+```
+
+```
+## Rows: 38,761
+## Columns: 14
+## $ SEXO               &lt;fct&gt; HOMBRE, HOMBRE, HOMBRE, HOMBRE, HOMBRE, MUJER, HOMB~
+## $ PAIS_RESIDENCIA    &lt;chr&gt; "FRANCIA", "ALEMANIA", "IRLANDA", "IRLANDA", "IRLAN~
+## $ EDAD               &lt;dbl&gt; 67, 40, 51, 60, 69, 24, 49, 47, 31, 70, 57, 67, 72,~
+## $ NOCHES             &lt;dbl&gt; 7, 7, 10, 12, 9, 6, 7, 10, 7, 7, 7, 14, 14, 7, 7, 7~
+## $ PERSONAS_16_64     &lt;dbl&gt; 1, 2, 2, 2, 0, 2, 2, 2, 2, 3, 2, 0, 0, 2, 1, 2, 0, ~
+## $ PERSONAS_65_O_MAS  &lt;dbl&gt; 2, 0, 0, 0, 2, 0, 0, 0, 0, 2, 0, 1, 2, 0, 0, 0, 2, ~
+## $ GASTO_EUROS        &lt;dbl&gt; 500.0800, 500.1500, 420.0000, 1000.0800, 1000.0800,~
+## $ COSTE_VUELOS_EUROS &lt;dbl&gt; 451.0143, 1550.0705, 1800.0000, 999.9600, 750.0214,~
+## $ COSTE_ALOJ_EUROS   &lt;dbl&gt; 698.9457, 650.0295, 2296.0000, 999.9600, 650.0186, ~
+## $ ISLA               &lt;chr&gt; "LANZAROTE", "LANZAROTE", "LANZAROTE", "LANZAROTE",~
+## $ ALOJ_CATEG         &lt;dbl&gt; 2, 5, 2, 4, 2, 2, 3, 4, 1, 2, 4, 5, 2, 4, 2, 4, 2, ~
+## $ ANTELACION_VIAJE   &lt;dbl&gt; 5, 5, 5, 4, 6, 5, 5, 5, 6, 6, 5, 6, 6, 4, 2, 6, 6, ~
+## $ TRIMESTRE          &lt;chr&gt; "2019Q2", "2019Q2", "2019Q2", "2019Q2", "2019Q2", "~
+## $ PESO               &lt;dbl&gt; 519.4322, 428.1090, 348.4510, 238.4456, 465.9586, 1~
+```
+
+---
+
+&lt;ru-blockquote&gt; Una variable clave al trabajar con microdatos es el factor de ponderación, nos indica el peso que tiene un encuestado cuando elevamos el resultado de la muestra a la población. En el caso de la EGT, el factor de ponderación es la variable `PESO`. &lt;/ru-blockquote&gt;
+
+* Obtener el número de turistas según sexo.
+
+ * Emplear el factor de ponderación `PESO`.
+ * Agrupar el dataframe por `SEXO`.
+ * Calcular la suma de la variable `PESO` para cada grupo.
+
+
+```r
+df.microdatos.2019 %&gt;%
+  group_by(SEXO) %&gt;%
+  summarise(turistas.mas.16 = sum(PESO)) %&gt;%
+  ungroup
+```
+
+```
+## # A tibble: 2 x 2
+##   SEXO   turistas.mas.16
+##   &lt;fct&gt;            &lt;dbl&gt;
+## 1 HOMBRE        6453123.
+## 2 MUJER         6822711.
+```
+
+*Ejercicio propuesto*
+
+ ---
+
+  Obtener el total de turistas mayores de 16 años.
+
+---
+
+* Obtener el gasto turístico por isla.
+
+ * Crear la variable `gasto.total` como la suma de `GASTO_EUROS`, `COSTE_VUELOS_EUROS` y `COSTE_ALOJ_EUROS`.
+ * Crear la variale `turistas.mas.16` como la suma de `PERSONAS_16_64` y `PERSONAS_65_O_MAS`.
+ * Agrupar el dataframe por `ISLA`.
+ * Calcular el gasto total por turista mayor de 16 años y emplear el factor de ponderación `PESO`.
+ * Calcular la suma de `PESO*GASTO_EUROS` para cada grupo.
+
+
+```r
+df.microdatos.2019 %&gt;%
+  mutate(gasto.total = GASTO_EUROS + COSTE_VUELOS_EUROS + COSTE_ALOJ_EUROS,
+         turistas.mas.16 = PERSONAS_16_64 + PERSONAS_65_O_MAS) %&gt;%
+  group_by(ISLA) %&gt;%
+  summarise(gasto.total = sum(gasto.total/turistas.mas.16*PESO)) %&gt;%
+  ungroup
+```
+
+```
+## # A tibble: 7 x 2
+##   ISLA                gasto.total
+##   &lt;chr&gt;                     &lt;dbl&gt;
+## 1 EL HIERRO_LA GOMERA   73923565.
+## 2 FUERTEVENTURA       1959315660.
+## 3 GRAN CANARIA        4341862169.
+## 4 LA PALMA             283790289.
+## 5 LANZAROTE           2746862301.
+## 6 No procede            70548945.
+## 7 TENERIFE            5615155360.
+```
+
+*Ejercicios propuestos*
+
+ ---
+
+  Obtener el gasto turístico total en Canarias.  
+  Obtener el gasto turístico total según el país de residencia.  
+  Obtener el gasto turístico total en cada isla según el país de residencia.
+
+---
+
+* Obtener los turistas mayores de 16 años y el gasto medio por turista en cada isla.
+
+  El procedimiento es similar al anterior pero dividiendo el gasto total por isla por la cantidad de turistas de cada isla.
+
+
+```r
+df.microdatos.2019 %&gt;%
+  mutate(gasto.total = GASTO_EUROS + COSTE_VUELOS_EUROS + COSTE_ALOJ_EUROS,
+         turistas.mas.16 = PERSONAS_16_64 + PERSONAS_65_O_MAS) %&gt;%
+  group_by(ISLA) %&gt;%
+  summarise(turistas.mas.16.total = sum(PESO),
+            gasto.medio = sum(gasto.total/turistas.mas.16*PESO)/turistas.mas.16.total) %&gt;%
+  ungroup
+```
+
+```
+## # A tibble: 7 x 3
+##   ISLA                turistas.mas.16.total gasto.medio
+##   &lt;chr&gt;                               &lt;dbl&gt;       &lt;dbl&gt;
+## 1 EL HIERRO_LA GOMERA                63118.       1171.
+## 2 FUERTEVENTURA                    1659115.       1181.
+## 3 GRAN CANARIA                     3702777.       1173.
+## 4 LA PALMA                          235559.       1205.
+## 5 LANZAROTE                        2521668.       1089.
+## 6 No procede                         53214.       1326.
+## 7 TENERIFE                         5040382.       1114.
+```
+
+*Ejercicios propuestos*
+
+ ---
+
+  Obtener el número de turistas y el gasto medio por turista en Canarias.  
+  Obtener el número de turistas y el gasto medio por turista en Canarias según el país de residencia.  
+  Obtener el número de turistas y el gasto medio por turista en cada isla según el país de residencia.
+
+---
+
+* Obtener los turistas mayores de 16 años y el gasto medio por turista y noche en cada isla.
+
+  * Agrupar el dataframe por islas, calcular para cada encuestado mayor de 16 años su gasto por noche.
+  * Elevar el resultado atendiendo al factor de ponderación.
+  * Dividir el resultado entre la suma del factor de ponderación.
+
+
+```r
+df.microdatos.2019 %&gt;%
+  mutate(gasto.total = GASTO_EUROS + COSTE_VUELOS_EUROS + COSTE_ALOJ_EUROS,
+         turistas.mas.16 = PERSONAS_16_64 + PERSONAS_65_O_MAS) %&gt;%
+  group_by(ISLA) %&gt;%
+  summarise(turistas.mas.16.total = sum(PESO),
+            gasto.medio = sum(gasto.total/turistas.mas.16/NOCHES*PESO)/turistas.mas.16.total) %&gt;%
+  ungroup
+```
+
+```
+## # A tibble: 7 x 3
+##   ISLA                turistas.mas.16.total gasto.medio
+##   &lt;chr&gt;                               &lt;dbl&gt;       &lt;dbl&gt;
+## 1 EL HIERRO_LA GOMERA                63118.        115.
+## 2 FUERTEVENTURA                    1659115.        139.
+## 3 GRAN CANARIA                     3702777.        141.
+## 4 LA PALMA                          235559.        131.
+## 5 LANZAROTE                        2521668.        135.
+## 6 No procede                         53214.        165.
+## 7 TENERIFE                         5040382.        140.
+```
+
+*Ejercicios propuestos*
+
+ ---
+
+  Obtener el número de turistas y el gasto medio por turista y noche en Canarias.  
+  Obtener el número de turistas y el gasto medio por turista y noche en Canarias según el país de residencia.  
+  Obtener el número de turistas y el gasto medio por turista y noche en cada isla según el país de residencia.
+
+
+---
+
+class:  inverse, center, middle, separador
+
+# Visualización de datos con ggplot2
+
+---
+
+# ggplot2
+
+Es la librería habitual para la elaboración de gráficos en R.
+
+Los gráficos elaborados con `ggplot2` presentan al menos tres elementos:
+
+* **Datos**. Se recogen en el parámetro `data`.
+* **Características estéticas**. Se recogen en el parámetro `mapping` mediante la función `aes()`.
+* **Objetos geométricos**. Consiste en añadir una capa en la que se indique la forma de visualización. Ejecutando el comando `help.search("geom_", package = "ggplot2")` se muestra el listado de formas geométricas.
+
+---
+
+* Representar la serie temporal de gasto turístico en Canarias por trimestres.
+
+Descargar los datos con el paquete `istacbaser`.
+
+
+```r
+# devtools::install_github("ropenspain/istacbaser")
+library(istacbaser)
+busqueda.egt &lt;- istacbase_search("egt", fields = "datos publicadosII")
+df &lt;- istacbase(busqueda.egt$ID[1], POSIXct = TRUE, freq = "trimestral")
+df.trimestral &lt;- filter(df,
+                     Indicadores == "Valor absoluto" &amp;
+                     `Indicadores de gasto` == "GASTO TOTAL" &amp;
+                     `Países de residencia` == "TOTAL PAÍSES")
+```
+
+Crear el gráfico de líneas considerando al eje `x` los trimestres y al eje `y` el valor de gasto.
+
+
+```r
+ggplot(data = df.trimestral, mapping = aes(x = fecha, y = valor))  +
+  geom_line()
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-90-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+Indicar el color y el tipo de línea.
+  
+
+```r
+ggplot(data = df.trimestral, mapping = aes(x = fecha, y = valor))  +
+  geom_line(
+  color = "#000000",
+  linetype = "solid"
+  )
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-91-1.png" style="display: block; margin: auto;" /&gt;
+
+*Ejercicios*
+
+ ---
+
+Ajuste el color y el tipo de línea.
+Incluya una capa con forma geométrica de puntos aplicando `geom_point()`.
+Ajuste el color y el tamaño los puntos mediante los parámetros `color` y `size`.
+
+---
+
+Modificar los ejes.
+  
+
+```r
+ggplot(data = df.trimestral %&gt;% mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-92-1.png" style="display: block; margin: auto;" /&gt;
+
+
+---
+
+Ajustar el `theme()`.
+
+
+```r
+ggplot(data = df.trimestral %&gt;% mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  theme(
+    panel.background = element_blank(),
+    axis.ticks = element_blank(),
+  ) +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-93-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+Una alternativa es emplear alguna configuración establecida.
+
+
+```r
+ggplot(data = df.trimestral %&gt;% mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  theme_classic() +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-94-1.png" style="display: block; margin: auto;" /&gt;
+
+---
+
+La librería `ggthemes` tiene múltiples opciones, por ejemplo la configuración de STATA.
+
+
+```r
+library(ggthemes)
+ggplot(data = df.trimestral %&gt;% mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  theme_stata() +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-95-1.png" style="display: block; margin: auto;" /&gt;
+
+*Ejercicios*
+
+ ---
+
+Ajuste la configuración a `theme_economist()`.
+
+---
+
+class:  inverse, center, middle, separador
+
+# Informes con RMarkdown
+
+---
+
+# RMarkdown
+
+RMarkdown es un formato que permite elaborar documentos en R.
+
+La principal ventaja de los documentos RMarkdown (`.Rmd`) frente a otras alternativas, como Microsoft WORD, es que permite combinar el texto con el análisis realizado en R.
+
+Es de bastante utilidad cuando elaboramos informes recurrentes para reportar resultados, pues al cambiar los datos el informe se actualizará automáticamente.
+
+Para crear un documento `.RMD` vamos a:
+
+* Ir a la pestaña `File`.
+* Hacer click en `New File`.
+* Hacer click en `R Markdown...`
+
+Los documentos RMarkdown tienen tres partes:
+
+* Encabezado.
+* Trozos de código R (chunks).
+* Texto.
+
+*Ejercicio*
+
+ ---
+
+Realice los ejercicios propuestos en el fichero `Ejercicio de RMarkdown.Rmd`.
+
+---
+
+class:  inverse, center, middle, separador
+
+# Recursos para continuar con su aprendizaje
+
+---
+
+# Ampliar conocimientos
+
+Bibliografía del curso:
+
+* [Curso de introducción a R](https://www.uv.es/vcoll/curso_r.html)
+* [Análisis de datos con R en la investigación en Turismo, Economía y Gestión](https://github.com/chrglez/181126cursordoctorado)
+
+Fuentes de información con las que continuar aprendiendo a trabajar con R.
+
+* [R](https://www.r-project.org/)
+* [RStudio](https://www.rstudio.com/)
+* [Rbloggers](https://www.r-bloggers.com/)
+* [The R Graph Gallery](https://www.r-graph-gallery.com/)
+* [RMarkdown](https://rmarkdown.rstudio.com/)
+* [Shiny](https://shiny.rstudio.com/)
+
+Grupos de usuarios de R recomendados.
+
+* [RHispano](http://r-es.org/)
+* [RCanarias](http://canarias.r-es.org/)
+
+
+
+
+---
+
+class:  inverse, center, middle, separador
+
+# ¡Gracias por su atención!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"ratio": "4:3"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

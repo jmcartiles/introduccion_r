@@ -1,0 +1,1 @@
+"0","encuesta.filter <- filter(encuesta, residente == TRUE)"

@@ -1,0 +1,4 @@
+"0","library(readxl)"
+"0",""
+"0","datos <- read_excel(""data/serie_gasto_istac.xlsx"")"
+"0","head(datos)"

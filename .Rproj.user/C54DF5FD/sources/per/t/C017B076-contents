@@ -1,0 +1,1582 @@
+---
+title: "Introducción al análisis de datos con R"
+# subtitle: ""
+author: "José Manuel Cazorla Artiles"
+# date: ""
+output:
+  xaringan::moon_reader:
+    css: [rutgers, rutgers-fonts, custom.css]
+    lib_dir: libs
+    nature:
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      ratio: "4:3"
+---
+
+# Estructura del curso
+
+1. Descarga e instalación de R y RStudio.
+
+2. Primeros pasos con R.
+
+  2.1. Tipos de objetos: vectores, matrices, data frames y listas.
+  
+  2.2. Estructuras básicas de programación.
+  
+  2.3. Trabajo con paquetes.
+
+3. Tratamiento de datos.
+
+  3.1. Importar y exportar datos.
+
+  3.2. Preparación de datos.
+  
+  3.3. Caso práctico: trabajar con microdatos.
+
+4. Visualización de datos con ggplot2.
+
+5. Informes con RMarkdown.
+
+6. Ampliar conocimientos.
+
+---
+
+class:  inverse, center, middle
+
+# Descarga e instalación de R y RStudio
+
+---
+
+background-image: url(img/R_foundation_logo.png)
+background-position: 90% 90%
+background-size: 100pt
+
+
+# ¿Qué es R?
+
+R es un entorno y lenguaje de programación diseñado para el análisis estadístico.
+
+* Es gratuito y de código abierto. Es parte de un proyecto colaborativo y abierto donde, además de la configuración básica, hay multitud de funciones y paquetes desarrollados por los propios usuarios.
+
+* Al ser un software de código abierto, a diferencia de otras herramías de análisis estadístico como STATA, SPSS, MATLAB... no tiene restricciones a la modificación del código, salvo las propias de la licencia GPL. 
+
+---
+
+background-image: url(img/RStudio.png)
+background-position: 50% 80%
+background-size: 300pt
+
+# ¿Y RStudio?
+
+RStudio es un entorno de desarrollo integrado (IDE en su siglas en inglés) para R.
+
+* Incluye consola, editor con resaltado de sintaxis que soporta ejecución directa del código además de herramientas para gestión de gráficos, historial de comandos, depuración de código y espacio de trabajo.
+
+* Es de código abierto y existen versiones para los diferentes sistemas operativos (Windows, Mac y Linux).
+
+---
+
+background-image: url(img/both.png)
+background-position: 50% 70%
+background-size: 450pt
+
+
+# Descarga e instalación
+
+.pull-left[
+### R
+
+* [Web de R](https://www.r-project.org/)
+
+* [Link de descarga](https://cran.r-project.org/bin/windows/base/)
+
+]
+
+.pull-right[
+### RStudio
+
+* [Web de RStudio](https://www.rstudio.com/)
+
+* [Link de descarga](https://www.rstudio.com/products/rstudio/download/)
+
+]
+
+---
+ 
+# Primeros pasos en R
+
+En su versión más básica R funciona como una calculadora.
+
+*Operadores aritméticos*
+
+ ---
+
+* Suma: `+`
+* Resta: `-`
+* Multiplicación:`*`
+* División:`/`
+* Potencia: `^`
+* Módulo: `%%`
+
+ ---
+
+Pruebe el siguiente código en la consola:
+
+```{r eval = FALSE, message=FALSE, warning=FALSE}
+3 + 4
+```
+
+---
+
+## Variables
+
+Un concepto fundamental en los lenguajes de programación es el de **variable**.
+
+Permite almacenar un valor o un objeto en R para luego poder consultarlo o emplearlo como parte de otras operaciones.
+
+*Ejemplo*
+
+ ---
+
+Para asignar el valor `4` a la variable `x` se puede usar el operador asignación `<-` (se puede usar también `=`)
+
+```{r message=FALSE, warning=FALSE}
+x <- 4
+```
+
+Para acceder al valor almacenado en `x` debemos escribir el nombre de la variable en la consola
+
+```{r, eval=FALSE}
+x
+```
+
+R nos devuelve en consola el valor almacenado en `x` que en este caso es `4`
+
+```{r, echo = FALSE}
+x
+```
+
+---
+
+## Tipos de datos en R
+
+* Texto (character) `chr: "char"`
+
+* Numérico `num: 3.4`
+
+* Entero `int: 3L`
+
+* Complejo `cplx: 3i`
+
+* Lógico `logi: TRUE`
+
+* Fecha `Date`: as.Date("2020-01-01")
+
+Podemos consultar el tipo de objeto mediante la función `class(x)`.
+
+*Ejemplo*
+
+----
+
+Aplique la función class(x) a los objetos definidos a continuación:
+
+```{r}
+numerico <- 3.4
+entero <- 3L
+complejo <- 3i
+logico <- TRUE
+fecha <- as.Date("2020-01-01")
+```
+
+```{r, echo = TRUE}
+class(x = numerico)
+```
+
+---
+
+background-image: url(img/motion.gif)
+background-size: 150pt
+background-position: 85% 30%
+
+
+## Directorio de trabajo
+
+.left[
+* Vía menú
+
+    * Ir a la pestaña `Files`
+    
+    * Hacer click en `...` (Go to directory)
+    
+    * Seleccionar directorio
+    
+    * Hacer click en la subestaña con la rueda dentada `More`
+    
+    * Hacer click en ` Set AS Working Directory`
+
+* Vía comando de R
+
+```{r eval = FALSE}
+setwd('c:/establecer/carpeta/de/trabajo')
+```
+
+* Vía proyecto
+
+    * `File`, `New Project`. Cuando esté creado se puede acceder al proyecto con `File`, `Open Project`.
+]
+
+---
+
+class:  inverse, center, middle
+
+# Tipos de objetos
+
+---
+
+# Vectores
+
+Los vectores son conjuntos de datos unidimensionales del mismo tipo. Se declaran con la función `c()` (de concatenate).
+
+*Ejemplo*
+
+----
+
+Crear vectores numérico, lógico y de texto y comprobar sus clases.
+
+```{r}
+vnum <- c(1,2,3)
+vlog <- c(TRUE,FALSE,TRUE)
+vchar <- c("curso","de","R")
+```
+ 
+```{r}
+class(vnum)
+class(vlog)
+class(vchar)
+```
+
+Puede obtenerse la longitud de un vector con la función `length(x)`.
+
+```{r}
+length(vnum)
+```
+
+---
+
+## Operaciones con vectores
+
+* Concatenar vectores
+
+```{r}
+vec1 <- c(1,4,5,3)
+vec2 <- 1:4 # es equivalente a c(1,2,3,4) o seq(1,4,1)
+vec12 <- c(vec1, vec2)
+```
+
+```{r}
+vec12
+```
+
+* Operaciones con un escalar
+
+```{r}
+vec1 + 2
+vec1 * 2
+```
+
+* Operaciones vectoriales
+
+```{r}
+vec1 + vec2
+```
+
+---
+
+## Operaciones con vectores
+
+*Comparadores*
+
+ ---
+
+* Mayor que: `>`
+* Menor que: `<`
+* Mayor o igual que: `>=`
+* Menor o igual que: `<=`
+* Igual: `==`
+* Distinto: `!=`
+ 
+ ---
+
+* Comparar vectores
+
+```{r}
+vec1 < vec2
+```
+
+
+* Concatenar el vector de texto `vchar` y los valores de `vec1`
+
+```{r}
+paste(vchar, vec1)
+```
+
+* Concatenar los valores de `vchar` en un único string
+
+```{r}
+paste(vchar, collapse = " ")
+```
+
+---
+
+## Seleccionar elementos de vectores
+
+Tomemos un nuevo vector de ejemplo.
+
+```{r}
+vec1 <- 1:7
+```
+
+* Seleccionar un elemento
+
+```{r}
+vec1[1]
+```
+
+* Seleccionar elementos por nombre
+
+```{r}
+# asignamos un nombre a cada elemento del vector
+names(vec1) <- c("lunes", "martes", "miercoles",
+                 "jueves", "viernes", "sabado", "domingo")
+vec1[c("miercoles")]
+```
+
+* Seleccionar elementos que cumplen una condición
+
+```{r}
+vec1[vec1 < 5]
+```
+
+---
+
+# Matrices
+
+La matriz es un objeto bidimensional de un mismo tipo de datos repartidos en filas y columnas.
+
+Se puede crear una matriz usando la función `matrix(x)`.
+
+Por ejemplo, una matriz de 3x3 con valores de 1 a 9 ordenados por fila.
+
+```{r}
+matriz1 <- matrix(data = 1:9, nrow = 3, ncol = 3, byrow = TRUE)
+# Ordenados por columnas
+# matriz1 <- matrix(data = 1:9, nrow = 3, ncol = 3, byrow = FALSE)
+matriz1
+class(matriz1)
+```
+
+Puede omitirse el argumento de columnas/filas pues la función `matrix(x)` es capaz de obtenerlo a partir del número de elemento si conoce al menos una dimensión.
+
+```{r}
+matriz1 <- matrix(data = 1:9, nrow = 3, byrow = TRUE)
+matriz1
+```
+
+---
+
+Puede obtenerse la dimensón de una matriz con la función `dim(x)`.
+
+```{r}
+dim(matriz1)
+```
+
+Añadir filas y columnas mediante las funciones `rbind(x)` y `cbind(x)`.
+
+```{r}
+rbind(matriz1, 1:3)
+cbind(matriz1, 1:3)
+```
+
+Las filas y columnas de una matriz pueden nombrarse mediante las funciones `rownames(x)` y `colnames(x)`.
+
+```{r}
+rownames(matriz1) <- paste("fila", 1:3)
+colnames(matriz1) <- paste("columna", 1:3)
+matriz1
+```
+
+---
+
+## Operaciones con matrices
+
+Las operaciones con matrices siguen la misma lógica que con los vectores. Veamos algunos ejemplo:
+
+* Suma de un escalar
+
+```{r}
+matriz1 + 2
+```
+
+* Producto de los elementos de una matriz
+
+```{r}
+matriz1 * matriz1
+```
+
+* Producto de matrices
+
+```{r}
+matriz1 %*% matriz1
+```
+
+---
+
+## Operaciones con matrices
+
+* Suma por fila
+
+```{r}
+rowSums(matriz1)
+```
+
+* Suma por columna
+
+```{r}
+colSums(matriz1)
+```
+
+* Producto por fila
+
+```{r}
+apply(matriz1, 1, prod)
+```
+
+* Producto por columna
+
+```{r}
+apply(matriz1, 2, prod)
+```
+
+---
+
+## Seleccionar elementos de matrices
+
+A diferencia de los vectores, donde sólo necesitamos indicar un valor pues son unidimensionales, en las matrices hay que indicar dos valores ya que tienen dos dimensions.
+
+* Posición de fila y columna
+
+```{r}
+matriz1[2,3]
+```
+
+```{r}
+matriz1[2,1:3]
+```
+
+* Nombre de fila y columna
+
+```{r}
+matriz1["fila 1", "columna 1"]
+```
+
+```{r}
+matriz1["fila 1", paste("columna", 1:2)]
+```
+
+---
+
+# Factores
+
+Se emplean para almacenar variables categóricas en R y pueden ser factores ordenados o no ordenados.
+
+Se crean con la función `factor(x)`.
+
+* Factor no ordenado
+
+```{r}
+sexo <- factor(c("Hombre", "Mujer", "Hombre", "Mujer"))
+sexo
+```
+
+* Factor ordenado
+
+```{r}
+estudios <- factor(c("primarios", "secundarios", "superiores",
+                     "superiores", "secundarios", "primarios"),
+                   ordered = TRUE,
+                   levels = c("primarios", "secundarios", "superiores"))
+estudios
+```
+
+Permite la comparación entre los elementos de dicho factor.
+
+```{r}
+estudios[1] > estudios[2]
+```
+
+---
+
+# Listas
+
+La lista es un objeto que permite recoger objetos de distinto tipo.
+
+Se puede crear una lista con la función `list()`.
+
+```{r}
+lista1 <- list(vector = vec1, matriz = matriz1,
+               factor.no.ordenado = sexo, factor.ordenado = estudios)
+str(lista1) # muestra la estructura
+```
+
+---
+
+## Seleccionar elementos de una lista
+
+Los elementos de una lista se puden seleccionar con el operador `[[]]`, o `$` si el elemento tiene nombre.
+
+```{r}
+lista1$vector
+lista1[[1]]
+lista1[["vector"]]
+```
+
+También se pueden seleccionar elementos dentro de un elmento mediante el operador `[]`.
+
+```{r}
+lista1$vector[1]
+lista1$vector[1:2]
+```
+
+---
+
+## Operaciones con listas
+
+*Ejemplos*
+
+ ---
+
+* Suma de un escalar.
+
+```{r}
+lista1$vector + 1
+```
+
+* Suma por columna de una matriz.
+
+```{r}
+colSums(lista1$matriz)
+```
+
+---
+
+# Data Frame
+
+Se trata de un objeto de caracter bidimensional, en el que cada columna sí debe ser del mismo tipo de datos.
+
+Se crean con la función `data.frame()`.
+
+```{r}
+id <- 1:5
+ola <- c(rep("T1",3), rep("T2", 2))
+sexo <- factor(c('Hombre', 'Mujer', 'Mujer', 'Mujer', 'Hombre'))
+ingresos <- c(1500,2300,1700,900,2100)
+residente <- c(TRUE, TRUE, TRUE, FALSE, TRUE)
+isla <- c("Gran Canaria","Tenerife", "Tenerife", NA, "Gran Canaria")
+
+encuesta <- data.frame(id, ola, sexo, ingresos, residente, isla, stringsAsFactors = FALSE)
+encuesta
+```
+
+Obtener la estructura del dataframe.
+
+```{r}
+str(encuesta)
+```
+
+---
+
+## Seleccionar elementos de un dataframe
+
+La selección de elementos se realiza con el operador `[]`, también podemos seleccionar una columna por su nombre con el operador `$`.
+
+```{r}
+# encuesta["sexo"]
+encuesta$sexo
+```
+
+```{r}
+# encuesta[c(1,2,3)]
+encuesta[c("sexo", "ingresos", "residente")]
+```
+
+```{r}
+encuesta[1:2, 2:3]
+```
+
+```{r}
+encuesta[encuesta$ingresos > 2000, ]
+```
+
+---
+
+## Operaciones con dataframes
+
+Por ejemplo, crear un nuevo dataframe reemplazando la variable `ingresos` por `ingresos * 2`.
+```{r}
+ingresos2 <- encuesta$ingresos * 2
+ingresos2
+encuesta2 <- encuesta
+encuesta2$ingresos <- ingresos2
+encuesta2
+```
+
+---
+
+class:  inverse, center, middle
+
+# Estructuras básicas de programación
+
+---
+
+# Condicionales
+
+Se puede controlar el flujo de ejecución mediante el uso de condicionales.
+
+```{r}
+x <- -1
+if(x < 0) {
+  print("El valor de x es negativo")
+}
+x <- 1
+if(x < 0) {
+  print("El valor de x es negativo")
+} else {
+  print("El valor de x es positivo")
+}
+x <- 0
+if(x < 0) {
+  print("El valor de x es negativo")
+} else if (x > 0) {
+  print("El valor de x es positivo")
+} else {
+  print("El valor de x es 0")
+}
+```
+
+---
+
+# Bucles
+
+Permite realizar un conjunto de operaciones de manera iterativa.
+
+```{r}
+x <- 0
+for (i in 1:10) {
+  x <- x + i
+  print(x)
+}
+```
+
+```{r}
+x <- 0
+while (x < 5) {
+  x <- x + 1
+  print(x)
+}
+```
+
+---
+
+# Funciones
+
+Las funciones son conjuntos de insrtucciones que realizan tareas determinadas y que pueden depender de parámetros que modifican el resultado.
+
+*Ejemplos*
+
+ ---
+
+```{r}
+f_suma <- function(x, y) {x + y}
+f_suma(1, 2)
+```
+
+```{r}
+f_suma_positivos <- function(x, y) {
+  if(any(c(x,y) < 0)) {
+    print("Introduzca valores positivos")
+    } else {
+      x + y
+    }
+}
+
+
+f_suma_positivos(1, -2)
+```
+
+
+---
+
+class:  inverse, center, middle
+
+# Trabajo con paquetes
+
+---
+
+Una de las virtudes de R es la ingente cantidad de funciones que hay desarrolladas.
+
+Los usuarios de R desarrollan sus propias funciones y pueden agrupar éstas en un paquete.
+
+En [CRAN](https://cran.r-project.org/), el repositorio oficial de R hay numerosos paquetes con distintas utilidades.
+
+Estos paquetes nos facilitan la tarea de la programación. Para poder usarlos debemos instalarlos y posteriormente cargarlos.
+
+## Instalar un paquete de R
+
+* Con el comando `install.package()`.
+
+* A través de la pestaña `Packages` y pulsando el botón `Install`.
+
+* A través del menú `Tools`, `Install packages`.
+
+## Cargar un paquete de R
+
+ Con el comando `library()`.
+
+* Pulsando en la casilla de verificación de la lista de paquetes intalados en la pestaña de `Packages`.
+
+---
+
+class:  inverse, center, middle
+
+# Tratamiento de datos
+
+---
+
+# El flujo de trabajo
+
+El flujo de trabajo en un proceso de análisis de datos puede representarse con el siguiente diagrama en la mayoría de los casos.
+
+<figure>
+    <div>
+      <img src="img/data-science.png">
+    </div>
+    <figcaption">Fuente: <a href="https://r4ds.had.co.nz">R for Data Science</a></figcaption>
+</figure>
+
+* **Import**. El primer paso consiste en acceder a los datos. Los datos pueden estar en multitud de formatos: desde EXCEL y CSV hasta datos web, imágenes etc. 
+
+* **Tidy**. Posteriormente se realiza un proceso de limpieza de los datos. Los datos no siempre tienen un formato amigable, de hecho, lo normal es que no lo tengan, si lo tienen es que alguien ha hecho este paso previamente.
+
+* **Understand**. Una vez los datos estén en el formato adecuado se inicia el proceso de exploración de los datos. En esta parte del flujo de trabajo se realizan transformaciones y visualizaciones de los datos con objeto de entender mejor los mismos y las relaciones entre ellos, normalmente es un proceso iterativo. La modelización forma parte del proceso de análisis de datos aunque queda fuera del alcance de este curso.
+
+* **Communicate**. Consiste en reportar, de la manera adecuada, las conclusiones extraidas.
+
+---
+
+# Importar y exportar datos
+
+## Importar fichero CSV
+
+Leer el fichero `serie_gasto_istac.csv`, que contiene las [series trimestrales de gasto turístico. Islas de Canarias. 2018 (Metodología 2018)](http://www.gobiernodecanarias.org/istac/jaxi-istac/menu.do?uripub=urn:uuid:70b2796b-2f02-435c-9f0a-7588612bb733) según la EGT recogidas en el [ISTAC](www.istac.es), de la carpeta `data` y almacenarlo en la variable `datos`. Mostrar las 5 primeras filas.
+
+```{r, message=FALSE, warning=FALSE}
+library(readr)
+
+datos <- read_csv2("data/serie_gasto_istac.csv")
+head(datos)
+```
+
+También se puede importar desde el menú mediante el botón `Import Dataset` de la pestaña `Environment`.
+
+---
+
+## Importar fichero excel
+
+Leer el fichero `serie_gasto_istac.xlsx` con los datos anteriormente cargados en formato CSV, ahora tienen formato XLSX. Mostrar las 5 primeras filas.
+
+```{r, message=FALSE, warning=FALSE}
+library(readxl)
+
+datos <- read_excel("data/serie_gasto_istac.xlsx")
+head(datos)
+```
+
+---
+
+## APIs
+
+Un API "Application Programming Interface" es un mecanismo que permite realizar una petición de datos a un servidor de internet.
+
+Muchas instituciones prestan un servicio API para consultar los datos que ofrecen.
+
+Permiten un acceso programático a los datos, que se obtienen, frecuentemente, en formato JSON.
+
+Es habitual el desarrollo de paquetes en R que faciliten el acceso a estos datos.
+
+Destacar algunas iniciativas de datos en abierto como: [ROpenSci](https://ropensci.org/) y [ROpenSpain](https://ropenspain.es/).
+
+A continuación se indican algunos de ellos:
+
+
+<style>
+td {
+  font-size: 14px
+}
+</style>
+
+ Paquete    | Fuente de datos  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;|Código de instalación
+:----       |:--------------------------------------------------|:---
+`WDI`       |Banco Mundial                                      |`install.packages("WDI")`
+`imfr`      |Fondo Monetario Internacional                      |`install.packages("imfr")`
+`eurostat`  |Eurostat                                           |`install.packages("eurostat")`
+`ecb`       |Banco Central Europeo                              |`install.packages("ecb")`
+`tidyBDE`   |Banco de España                                    |`install.packages("tidyBDE")`
+`INEbaseR`  |Instituto Nacional de Estadística                  |`remotes::install_github("oddworldng/INEbaseR")`
+`istacr`    |Instituto Canario de Estadística                   |`install.packages("istacr")`
+`istacbaser`|Instituto Canario de Estadística                   |`remotes::install_github("ropenspain/istacbaser")`
+`igebaser`  |Instituto Galego de Estatística                    |`remotes::install_github("jmcartiles/igebaser")`
+`opendataes`|Iniciativa [datos.gob.es](https://datos.gob.es/)   |`remotes::install_github("ropenspain/opendataes")`
+...         | 
+
+---
+
+
+## Otros formatos de datos
+
+* Mediante el botón `Import Dataset` de la pestaña `Environment`
+
+* Mediante el paquete `haven`.
+
+```{r eval = FALSE}
+install.packages("haven") 
+dataset <- read_stata() # Stata
+dataset <- read_sav() # SPSS
+dataset <- read_sas() # SAS
+```
+
+## Exportar datos
+
+Hay varias funciones que permiten grabar y más tarde cargar los ficheros ya grabados.
+
+   |Guardar|Leer
+---|:---|:---
+Todas|`save.image()`|`load()`
+Algunos objetos|`save()`|`load()`
+Un objeto|`saveRDS()`, `readr::write_rds()`|`readRDS()`, `readr::read_rds()`
+Csv|`write.csv()`, `readr:write_csv()`| `read.csv()`, `readr::read_csv()`
+Excel|`xlsx::write.xlsx()`|`readr::read_excel()`
+
+---
+
+# Preparación de datos
+
+Una vez cargados los datos, comienza el proceso de procesamiento de los mismos, suele decirse que ocupa en torno al 80% del tiempo del proyecto.
+
+En este curso realizaremos esta tarea mediante el conjunto de paquetes de [tidyverse](https://www.tidyverse.org/).
+
+*The pipe*
+
+ ---
+
+El operador pipe (`%>%`), puede leerse como "entonces" y permite encadenar funciones pasando el elemento que está a la izquierda del pipe a la derecha como un argumento.
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+```{r}
+data.frame(resultado = mean(1:4))
+
+1:4 %>%
+  mean %>%
+  data.frame(resultado = .)
+```
+
+
+---
+
+## DPLYR
+
+Es un paquete de R, que forma parte del entorno tidyverse, y nos facilita la manipulación de datos.
+
+*Principales funciones*
+
+ ---
+
+* `filter()`: seleccionar filas
+
+* `arrange()`: ordenar filas
+
+* `rename()`: renombrar variables
+
+* `select()`: seleccionar columnas
+
+* `mutate()`: crear variables
+
+* `summarise()`: resume varios valores en uno
+
+* `group_by()`: agrupar filas
+
+---
+
+A partir del dataframe `encuesta` aplicar las funciones del paquete `dplyr` definidas anteriormente.
+
+* Seleccionar a los encuestados que declaran ser residentes en Canarias.
+
+```{r}
+encuesta.filter <- filter(encuesta, residente == TRUE)
+```
+
+* Ordenar de manera descendente los ingresos.
+
+```{r}
+encuesta.arrange <- arrange(encuesta, desc(ingresos))
+```
+
+* Renombrar la variable `isla` como `isla de residencia`
+
+```{r}
+encuesta.rename <- rename(encuesta, "isla de residencia" = "isla")
+```
+
+* Seleccionar las columnas: `sexo`, `ingresos` e `isla`
+
+```{r}
+encuesta.select <- select(encuesta, c("sexo", "ingresos", "isla"))
+```
+
+* Crear la variable `ccaa` que indica la comunidad autónoma de residencia.
+
+```{r}
+encuesta.mutate <- mutate(encuesta, ccaa = ifelse(residente == TRUE, "Canarias", "Otra CCAA"))
+```
+
+* Resumir el dataframe a una varible que indique el ingreso medio.
+
+```{r}
+encuesta.summarise <- summarise(encuesta, ingreso.medio = mean(ingresos))
+```
+
+* Calcular el ingreso medio por isla de residencia.
+
+```{r}
+encuesta.group_by <- summarise(group_by(encuesta, isla), mean(ingresos))
+```
+
+Aplique las funciones anteriores empleando el operador `%>%`.
+
+---
+
+## Ejercicios
+
+* `filter`
+
+ * Seleccionar los encuestados que son hombres.
+ * Seleccionar los encuestados que son mujeres.
+ * Seleccionar los encuestados con ingresos inferiores a 1000.
+ * Seleccionar los encuestados con ingresos superiores a 1000.
+ * Seleccionar los encuestados no residentes.
+ * Seleccionar los encuestados residentes en Gran Canaria.
+ * Seleccionar los encuestados residentes en Tenerife.
+
+* `arrange`
+
+ * Ordenar la encuesta según la variable de tipo factor `sexo`.
+ * Ordenar la encuesta según la variable de tipo numérico `ingresos`.
+ * Ordenar la encuesta según la variable de tipo lógico `residente`.
+ * Ordenar la encuesta según la variable de tipo caracter `isla`.
+ * Realizar las ordenaciones anteriores de forma descendente.
+
+* `select`
+
+ * Seleccionar todas las variables menos `sexo`.
+ * Seleccionar todas las variables menos `sexo` e `ingresos`.
+ * Seleccionar todas las variables que contengan la letra `e`. (Pista: función `contains()`)
+ * Seleccionar todas las variables que no contengan la letra `e`. (Pista: función `contains()`)
+ * Seleccionar las variables que empiecen con la letra `s`. (Pista: función `starts_with()`)
+ * Seleccionar las variables que terminen con la letra `o`. (Pista: función `end_with()`)
+
+---
+
+* `mutate`
+
+ * Crear la variable `ingresos.2` como los ingresos al cuadrado.
+ * Crear la variable `ingresos.2.res` como los ingresos al cuadrado para los residentes. (Pista: función `case_when()`)
+ * Crear la variable `ingresos.cat` que toma valor 0 si `ingresos < 1000`, 1 si `ingresos >= 1000 & ingresos < 2000` y 2 si `ingresos >= 2000`. (Pista: función `case_when()`)
+ * Reemplazar en la variable `isla` los na por "Otra CCAA". (Pista: función `replace_na()`)
+ 
+* `summarise`
+
+ * Resumir el dataframe en la variable `ingreso.total` que indica la suma de ingreso de los encuestados.
+ * Resumir el dataframe en la variable `ingreso.dt` que indica la desviación típica del ingreso de los encuestados.
+ * Resumir el dataframe en la variable `resindentes.media` que indica la cuota de residentes entre los encuestados.
+
+* `group_by`
+
+ * Crear la variable `ingreso.medio.isla` que indica el promedio de ingresos por isla de residencia.
+ * Crear la variable `ingreso.total.isla` que indica el promedio de ingresos por isla de residencia.
+ * Crear la variable `encuestados.isla` que indica el total de encuestados por isla de residencia. (Pista: función `n()`)
+ * Crear la variable `encuestados.freq.isla` que indica la cuota de encuestados por isla de residencia. (Pista: función `n()`)
+
+---
+
+## De ancho a largo y de largo a ancho
+
+En ciencias sociales los datos suelen tener una estructura tabular, es decir, se organizan en filas y columnas. Donde cada fila indica una unidad de análisis y cada columna una variable.
+
+Es preciso indicar que las variables se pueden agrupar en variables de identificación y de medida.
+
+Así, podemos distinguir entre datos en formato ancho, cuando cada columna es una variable, y formato largo cuando cada fila es una combinación de variables de identificación.
+
+Para trabajar con las funciones tidyverse es más útil tener los datos en formato largo. 
+
+Pero en otras ocasiones puede ser de mayor interés tener los datos en formato ancho, veamos como cambiar de uno a otro.
+
+.pull-left[
+### De largo a ancho
+
+<!-- <figure> -->
+<!--     <div> -->
+<!--       <img src="img/largo_a_ancho.png"> -->
+<!--     </div> -->
+<!--     <figcaption">Fuente: <a href="https://r4ds.had.co.nz">R for Data Science</a></figcaption> -->
+<!-- </figure> -->
+]
+
+.pull-right[
+### De ancho a largo
+<!-- <figure> -->
+<!--     <div> -->
+<!--       <img src="img/ancho_a_largo.png"> -->
+<!--     </div> -->
+<!--     <figcaption">Fuente: <a href="https://r4ds.had.co.nz">R for Data Science</a></figcaption> -->
+<!-- </figure> -->
+
+]
+
+<figure>
+    <div>
+      <img src="img/pivoting.png">
+    </div>
+    <figcaption">Fuente: <a href="https://r4ds.had.co.nz">R for Data Science</a></figcaption>
+</figure>
+
+---
+
+* Dataframe de ejemplo:
+
+```{r}
+df.largo <- data.frame(
+  poblacion = c(1000, 2000, 3000, 4000, 5000, 6000),
+  region = c("A", "A", "A", "B", "B", "B"),
+  periodo = c(rep(seq(1,3,1), 2))
+)
+```
+
+* De largo a ancho.
+
+```{r}
+df.ancho <- pivot_wider(df.largo, id_cols = region,
+            names_from = "periodo", names_prefix = "periodo_", values_from = "poblacion")
+df.ancho
+```
+
+* De ancho a largo.
+
+```{r}
+df.largo <- pivot_longer(df.ancho,
+                         cols = c(starts_with("periodo")), names_to = "periodo",
+                         names_prefix = "periodo_", values_to = "poblacion")
+df.largo
+```
+
+
+---
+
+# Caso práctico: trabajar con microdatos
+
+Descargar los [microdatos de 2019 de la Encuesta de Gasto Turístico del ISTAC, según la metodología 2018](http://www.gobiernodecanarias.org/istac/estadisticas/sectorservicios/hosteleriayturismo/demanda/C00028A.html).
+
+* Cargar los microdatos.
+
+```{r, warning=FALSE, message=FALSE}
+df.microdatos.2019 <- read_csv2("data/GASTO_TURISTICO_2019.csv")
+```
+
+* Mostrar la estructura de los datos.
+
+```{r, warning=FALSE, message=FALSE}
+glimpse(df.microdatos.2019)
+```
+
+---
+
+* Seleccionar las columnas: `SEXO`, `PAIS_RESIDENCIA`, `EDAD`, `NOCHES`, `PERSONAS_16_64`, `PERSONAS_65_O_MAS`, `GASTO_EUROS`, `COSTE_VUELOS_EUROS`, `COSTE_ALOJ_EUROS`, `ISLA`, `ALOJ_CATEG`, `ANTELACION_VIAJE`, `TRIMESTRE` y `PESO`.  
+
+  Para conocer las variables disponibles en el fichero es recomendable mirar el fichero `Diseño de registro EGT 2018.xls`.
+
+```{r, warning=FALSE, message=FALSE}
+df.microdatos.2019 <- select(df.microdatos.2019, c("SEXO", "PAIS_RESIDENCIA", "EDAD", "NOCHES",
+                                                   "PERSONAS_16_64", "PERSONAS_65_O_MAS",
+                                                   "GASTO_EUROS", "COSTE_VUELOS_EUROS",
+                                                   "COSTE_ALOJ_EUROS", "ISLA", "ALOJ_CATEG",
+                                                   "ANTELACION_VIAJE", "TRIMESTRE", "PESO"))
+```
+
+* Mostrar la estructura de los datos. 
+
+```{r, warning=FALSE, message=FALSE}
+glimpse(df.microdatos.2019)
+```
+
+---
+
+* Reemplazar el código de la variable `SEXO` por la etiqueta correspondiente de acuerdo al diseño de registro.
+
+ * Leer la pestaña `Sexo` del fichero `Diseño de registro EGT 2018.xls`.
+ 
+     * Eliminar variable `OBSERVACIONES`. 
+     * Renombrar variables `CÓDIGOS` y `ETIQUETAS` a `code` y `label`.
+     * Saltar la primera fila.
+     * Eliminar valores NA.
+     
+ * Sustituir el código por la etiqueta.
+ 
+     * Identificar la correspondencia del código de `df.microdatos.2019` en `df.disenyo.registro.sexo`.
+     * Reemplazar la variable `SEXO`, que muestra los códigos, por la variable `label`.
+     * Transformar la variable `label` de caracter a factor
+
+```{r, warning=FALSE, message=FALSE}
+df.disenyo.registro.sexo <- read_excel("data/Diseño de registro EGT 2018.xls",
+                                       sheet = "Sexo", skip = 1) %>%
+  select("code" = "CÓDIGOS", "label" = "ETIQUETA") %>%
+    filter(!is.na(code))
+```
+ 
+```{r, warning=FALSE, message=FALSE}
+i.code <- match(df.microdatos.2019$SEXO, df.disenyo.registro.sexo$code)
+df.microdatos.2019 <- df.microdatos.2019 %>%
+  mutate("SEXO" = as.factor(df.disenyo.registro.sexo$label[i.code]))
+```
+
+Aplique el procedimiento anterior para las variables: `PAIS_RESIDENCIA`, `ISLA` y `ALOJ_CATEG`.
+
+---
+
+* Mostrar la estructura de los datos. 
+
+```{r, warning=FALSE, message=FALSE}
+glimpse(df.microdatos.2019)
+```
+
+---
+
+* Crear una función para cambiar los códigos por etiquetas.
+
+  Los parámetros de la función serán:
+   
+   * `var_variable`. Indica la variable cuyos códigos se van a reemplazar.
+   * `var_ruta`. Indica la ruta en la que se encuentra el fichero `Diseño de registro EGT 2018.xls`.
+   * `var_sheet`. Indica la hoja de EXCEL en la que se encuentra la relación de código y etiqueta.
+   * `var_factor`. Indica si la variable es de tipo caracter o factor, por defecto caracter.
+
+```{r}
+get_label <- function(var_variable, var_sheet, var_ruta, var_factor = FALSE) {
+  
+  df.disenyo.registro.tmp <- read_excel(var_ruta, sheet = var_sheet, skip = 1) %>%
+    select("code" = "CÓDIGOS", "label" = "ETIQUETA") %>%
+    filter(!is.na(code))
+  
+  i.code <- match(var_variable, df.disenyo.registro.tmp$code)
+  
+  v.result <- df.disenyo.registro.tmp$label[i.code]
+  
+  if(var_factor == TRUE) v.result <- as.factor(v.result)
+  
+  return(v.result)
+
+}
+```
+
+* Aplicar la función a la variable `PAIS_RESIDENCIA`.
+
+```{r}
+df.microdatos.2019 <- df.microdatos.2019 %>%
+  mutate(`PAIS_RESIDENCIA` = get_label(
+    var_variable = `PAIS_RESIDENCIA`,
+    var_sheet = "País2",
+    var_ruta = "data/Diseño de registro EGT 2018.xls")
+)
+```
+
+---
+
+* Mostrar la estructura de los datos. 
+
+```{r, warning=FALSE, message=FALSE}
+glimpse(df.microdatos.2019)
+```
+
+* Aplicar la función a la variable `ISLA`.
+
+```{r}
+df.microdatos.2019 <- df.microdatos.2019 %>%
+  mutate(`ISLA` = get_label(
+    var_variable = `ISLA`,
+    var_sheet = "Isla",
+    var_ruta = "data/Diseño de registro EGT 2018.xls")
+)
+```
+
+---
+
+* Mostrar la estructura de los datos. 
+
+```{r, warning=FALSE, message=FALSE}
+glimpse(df.microdatos.2019)
+```
+
+---
+
+<ru-blockquote> Una variable clave al trabajar con microdatos es el factor de ponderación, nos indica el peso que tiene un encuestado cuando elevamos el resultado de la muestra a la población. En el caso de la EGT, el factor de ponderación es la variable `PESO`. </ru-blockquote>
+
+* Obtener el número de turistas según sexo.
+
+ * Emplear el factor de ponderación `PESO`.
+ * Agrupar el dataframe por `SEXO`.
+ * Calcular la suma de la variable `PESO` para cada grupo.
+
+```{r}
+df.microdatos.2019 %>%
+  group_by(SEXO) %>%
+  summarise(turistas.mas.16 = sum(PESO)) %>%
+  ungroup
+```
+
+*Ejercicio propuesto*
+
+ ---
+
+  Obtener el total de turistas mayores de 16 años.
+
+---
+
+* Obtener el gasto turístico por isla.
+
+ * Crear la variable `gasto.total` como la suma de `GASTO_EUROS`, `COSTE_VUELOS_EUROS` y `COSTE_ALOJ_EUROS`.
+ * Crear la variale `turistas.mas.16` como la suma de `PERSONAS_16_64` y `PERSONAS_65_O_MAS`.
+ * Agrupar el dataframe por `ISLA`.
+ * Calcular el gasto total por turista mayor de 16 años y emplear el factor de ponderación `PESO`.
+ * Calcular la suma de `PESO*GASTO_EUROS` para cada grupo.
+
+```{r}
+df.microdatos.2019 %>%
+  mutate(gasto.total = GASTO_EUROS + COSTE_VUELOS_EUROS + COSTE_ALOJ_EUROS,
+         turistas.mas.16 = PERSONAS_16_64 + PERSONAS_65_O_MAS) %>%
+  group_by(ISLA) %>%
+  summarise(gasto.total = sum(gasto.total/turistas.mas.16*PESO)) %>%
+  ungroup
+```
+
+*Ejercicios propuestos*
+
+ ---
+
+  Obtener el gasto turístico total en Canarias.  
+  Obtener el gasto turístico total según el país de residencia.  
+  Obtener el gasto turístico total en cada isla según el país de residencia.
+
+---
+
+* Obtener los turistas mayores de 16 años y el gasto medio por turista en cada isla.
+
+  El procedimiento es similar al anterior pero dividiendo el gasto total por isla por la cantidad de turistas de cada isla.
+
+```{r}
+df.microdatos.2019 %>%
+  mutate(gasto.total = GASTO_EUROS + COSTE_VUELOS_EUROS + COSTE_ALOJ_EUROS,
+         turistas.mas.16 = PERSONAS_16_64 + PERSONAS_65_O_MAS) %>%
+  group_by(ISLA) %>%
+  summarise(turistas.mas.16.total = sum(PESO),
+            gasto.medio = sum(gasto.total/turistas.mas.16*PESO)/turistas.mas.16.total) %>%
+  ungroup
+```
+
+*Ejercicios propuestos*
+
+ ---
+
+  Obtener el número de turistas y el gasto medio por turista en Canarias.  
+  Obtener el número de turistas y el gasto medio por turista en Canarias según el país de residencia.  
+  Obtener el número de turistas y el gasto medio por turista en cada isla según el país de residencia.
+
+---
+
+* Obtener los turistas mayores de 16 años y el gasto medio por turista y noche en cada isla.
+
+  * Agrupar el dataframe por islas, calcular para cada encuestado mayor de 16 años su gasto por noche.
+  * Elevar el resultado atendiendo al factor de ponderación.
+  * Dividir el resultado entre la suma del factor de ponderación.
+
+```{r}
+df.microdatos.2019 %>%
+  mutate(gasto.total = GASTO_EUROS + COSTE_VUELOS_EUROS + COSTE_ALOJ_EUROS,
+         turistas.mas.16 = PERSONAS_16_64 + PERSONAS_65_O_MAS) %>%
+  group_by(ISLA) %>%
+  summarise(turistas.mas.16.total = sum(PESO),
+            gasto.medio = sum(gasto.total/turistas.mas.16/NOCHES*PESO)/turistas.mas.16.total) %>%
+  ungroup
+```
+
+*Ejercicios propuestos*
+
+ ---
+
+  Obtener el número de turistas y el gasto medio por turista y noche en Canarias.  
+  Obtener el número de turistas y el gasto medio por turista y noche en Canarias según el país de residencia.  
+  Obtener el número de turistas y el gasto medio por turista y noche en cada isla según el país de residencia.
+
+
+---
+
+class:  inverse, center, middle
+
+# Visualización de datos con ggplot2
+
+---
+
+# ggplot2
+
+Es la librería habitual para la elaboración de gráficos en R.
+
+Los gráficos elaborados con `ggplot2` presentan al menos tres elementos:
+
+* **Datos**. Se recogen en el parámetro `data`.
+* **Características estéticas**. Se recogen en el parámetro `mapping` mediante la función `aes()`.
+* **Objetos geométricos**. Consiste en añadir una capa en la que se indique la forma de visualización. Ejecutando el comando `help.search("geom_", package = "ggplot2")` se muestra el listado de formas geométricas.
+
+---
+
+* Representar la serie temporal de gasto turístico en Canarias por trimestres.
+
+Descargar los datos con el paquete `istacbaser`.
+
+```{r, warning=FALSE}
+# devtools::install_github("ropenspain/istacbaser")
+library(istacbaser)
+busqueda.egt <- istacbase_search("egt", fields = "datos publicadosII")
+df <- istacbase(busqueda.egt$ID[1], POSIXct = TRUE, freq = "trimestral")
+df.trimestral <- filter(df,
+                     Indicadores == "Valor absoluto" &
+                     `Indicadores de gasto` == "GASTO TOTAL" &
+                     `Países de residencia` == "TOTAL PAÍSES")
+```
+
+Crear el gráfico de líneas considerando al eje `x` los trimestres y al eje `y` el valor de gasto.
+
+```{r, fig.height=4, fig.align='center'}
+ggplot(data = df.trimestral, mapping = aes(x = fecha, y = valor))  +
+  geom_line()
+```
+
+---
+
+Indicar el color y el tipo de línea.
+  
+```{r, fig.height=4, fig.align='center'}
+ggplot(data = df.trimestral, mapping = aes(x = fecha, y = valor))  +
+  geom_line(
+  color = "#000000",
+  linetype = "solid"
+  )
+```
+
+*Ejercicios*
+
+ ---
+
+Ajuste el color y el tipo de línea.
+
+---
+
+Modificar los ejes.
+  
+```{r, fig.height=4, fig.align='center'}
+ggplot(data = df.trimestral %>%
+         mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+
+---
+
+Ajustar el `theme()`.
+
+```{r, fig.height=4, fig.align='center'}
+ggplot(data = df.trimestral %>%
+         mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  theme(
+    panel.background = element_blank(),
+    axis.ticks = element_blank(),
+  ) +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+---
+
+Una alternativa es emplear alguna configuración establecida.
+
+```{r, fig.height=4, fig.align='center'}
+ggplot(data = df.trimestral %>%
+         mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  theme_classic() +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+---
+
+La librería `ggthemes` tiene múltiples opciones, por ejemplo la configuración de STATA.
+
+```{r, warning=FALSE, fig.height=4, fig.align='center'}
+library(ggthemes)
+ggplot(data = df.trimestral %>%
+         mutate(valor = valor / 1000000),
+       mapping = aes(x = fecha, y = valor))  +
+  geom_line(color = "#000000", linetype = "solid") +
+  theme_stata() +
+  scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
+                                                 scientific = FALSE)) +
+  labs(
+    title = "Gasto turístico en Canarias",
+    x = "",
+    y = "Millones de €",
+    caption = "Fuente: Elaboración propia a partir de ISTAC"
+  )
+```
+
+*Ejercicios*
+
+ ---
+
+Ajuste la configuración a `theme_economist()`.
+
+---
+
+class:  inverse, center, middle
+
+# Informes con RMarkdown
+
+---
+
+# RMarkdown
+
+RMarkdown es un formato que permite elaborar documentos en R.
+
+La principal ventaja de los documentos RMarkdown (`.Rmd`) frente a otras alternativas, como Microsoft WORD, es que permite combinar el texto con el análisis realizado en R.
+
+Es de bastante utilidad cuando elaboramos informes recurrentes para reportar resultados, pues al cambiar los datos el informe se actualizará automáticamente.
+
+Para crear un documento `.RMD` vamos a:
+
+* Ir a la pestaña `File`.
+* Hacer click en `New File`.
+* Hacer click en `R Markdown...`
+
+Los documentos RMarkdown tienen tres partes:
+
+* Encabezado.
+* Trozos de código R (chunks).
+* Texto.
+
+*Ejercicio*
+
+ ---
+
+A partir de la plantilla que se le proporciona en este curso elabore su propio informe en RMarkdown.
+
+---
+
+class:  inverse, center, middle
+
+# Recursos para continuar con su aprendizaje
+
+---
+
+# Ampliar conocimientos
+
+Bibliografía del curso:
+
+* [Curso de introducción a R](https://www.uv.es/vcoll/curso_r.html)
+* [Análisis de datos con R en la investigación en Turismo, Economía y Gestión](https://github.com/chrglez/181126cursordoctorado)
+
+Fuentes de información con las que continuar aprendiendo a trabajar con R.
+
+* [R](https://www.r-project.org/)
+* [RStudio](https://www.rstudio.com/)
+* [Rbloggers](https://www.r-bloggers.com/)
+* [The R Graph Gallery](https://www.r-graph-gallery.com/)
+* [RMarkdown](https://rmarkdown.rstudio.com/)
+* [Shiny](https://shiny.rstudio.com/)
+
+Grupos de usuarios de R recomendados.
+
+* [RHispano](http://r-es.org/)
+* [RCanarias](http://canarias.r-es.org/)
+
+
+
+
+---
+
+class:  inverse, center, middle
+
+# ¡Gracias por su atención!
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

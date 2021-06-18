@@ -1,0 +1,27 @@
+"0","df.covid <- read_csv(""https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"") %>%
+  rename(country = ""Country/Region"") %>%
+  filter(country %in% var_countries, is.na(`Province/State`)) %>%
+  select(-c(""Province/State"", ""Lat"", ""Long"")) %>%
+  pivot_longer(-country, names_to = ""date"", values_to = ""contagiados"") %>%
+  mutate(date = mdy(date),
+         month = month(date),
+         year = year(date)) %>%
+  group_by(country, month, year) %>%
+  filter(date == max(date)) %>%
+  ungroup %>%
+  mutate(date = as.Date(paste(year, month, ""01"", sep = ""-""))) %>%
+  group_by(country) %>%
+  arrange(date) %>%
+  mutate(contagiados_mes = contagiados - lag(contagiados)) %>%
+  ungroup
+"
+"1","
+[36m--[39m [1m[1mColumn specification[1m[22m [36m------------------------------------------------------------------------------------------------------[39m
+cols(
+  .default = col_double(),
+  `Province/State` = [31mcol_character()[39m,
+  `Country/Region` = [31mcol_character()[39m
+)
+[36mi[39m Use [38;5;251m[48;5;235m[38;5;251m[48;5;235m`spec()`[48;5;235m[38;5;251m[49m[39m for the full column specifications.
+
+"

@@ -1,0 +1,4 @@
+"0","df.microdatos.2019 %>%"
+"0","  group_by(SEXO) %>%"
+"0","  summarise(turistas.mas.16 = sum(PESO)) %>%"
+"0","  ungroup"

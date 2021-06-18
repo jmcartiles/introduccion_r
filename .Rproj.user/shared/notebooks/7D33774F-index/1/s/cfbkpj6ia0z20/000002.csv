@@ -1,0 +1,6 @@
+"0","df.microdatos.2019 <- df.microdatos.2019 %>%"
+"0","  mutate(`ISLA` = get_label("
+"0","    var_variable = `ISLA`,"
+"0","    var_sheet = ""Isla"","
+"0","    var_ruta = ""data/Diseño de registro EGT 2018.xls"")"
+"0",")"

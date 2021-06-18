@@ -1,0 +1,85 @@
+.title-slide {
+  background-image: url("img/daea_eitt.png");
+  background-position: 30% 15%;
+  background-size: 600px;
+  background-color: #fff;
+  padding-left: 100px;  /* delete this for 4:3 aspect ratio */
+}
+
+
+.title-slide-section-red {
+  background-color: #75aadb;
+  padding-left: 100px;  /* delete this for 4:3 aspect ratio */
+}
+
+
+a, a > code {
+  color: #75aadb; /* rgb(249, 38, 114) */
+  text-decoration: none;
+}
+
+
+ru-blockquote {
+  display: block;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  margin-left: 40px;
+  margin-right: 40px;
+  border-left: solid 10px #75aadb;
+  background-color: #818181;
+  padding: 1em;
+  color: #fff;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+}
+
+
+h1 {
+  color: #75aadb;
+}
+
+.RUblue {
+  color: #75aadb;
+}
+
+strong {
+  color: #75aadb;
+}
+
+.title-slide-final h1 {
+  color: #75aadb;
+}
+
+.title-slide h1 {
+  color: #75aadb;  
+}
+
+.title-slide h2 {
+  color: #75aadb;
+  font-size: 35px;
+  text-align: left;
+  text-shadow: none;
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+.remark-slide-content {
+  font-size: 15px;
+}
+
+.separador {
+  background-color: #0068a0;
+  text-shadow: #0068a0;
+}
+
+.remark-slide-number{
+  color: black;
+}
+
+.remark-code {
+  font-size: 15px;
+}
+
+.remark-code-line-highlighted {
+    background-color: #ffff88 !important;
+}
