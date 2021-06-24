@@ -42,7 +42,7 @@ output:
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Descarga e instalación de R y RStudio
 
@@ -228,7 +228,7 @@ setwd('c:/establecer/carpeta/de/trabajo')
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Tipos de objetos
 
@@ -633,7 +633,7 @@ encuesta2
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Estructuras básicas de programación
 
@@ -717,7 +717,7 @@ f_suma_positivos(1, -2)
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Trabajo con paquetes
 
@@ -747,7 +747,7 @@ Estos paquetes nos facilitan la tarea de la programación. Para poder usarlos de
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Tratamiento de datos
 
@@ -1340,7 +1340,7 @@ df.microdatos.2019 %>%
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Visualización de datos con ggplot2
 
@@ -1397,14 +1397,15 @@ ggplot(data = df.trimestral, mapping = aes(x = fecha, y = valor))  +
  ---
 
 Ajuste el color y el tipo de línea.
+Incluya una capa con forma geométrica de puntos aplicando `geom_point()`.
+Ajuste el color y el tamaño los puntos mediante los parámetros `color` y `size`.
 
 ---
 
 Modificar los ejes.
   
 ```{r, fig.height=4, fig.align='center'}
-ggplot(data = df.trimestral %>%
-         mutate(valor = valor / 1000000),
+ggplot(data = df.trimestral %>% mutate(valor = valor / 1000000),
        mapping = aes(x = fecha, y = valor))  +
   geom_line(color = "#000000", linetype = "solid") +
   scale_y_continuous(labels = function(x) format(x, big.mark = ".", decimal.mark = ",",
@@ -1423,8 +1424,7 @@ ggplot(data = df.trimestral %>%
 Ajustar el `theme()`.
 
 ```{r, fig.height=4, fig.align='center'}
-ggplot(data = df.trimestral %>%
-         mutate(valor = valor / 1000000),
+ggplot(data = df.trimestral %>% mutate(valor = valor / 1000000),
        mapping = aes(x = fecha, y = valor))  +
   geom_line(color = "#000000", linetype = "solid") +
   theme(
@@ -1446,8 +1446,7 @@ ggplot(data = df.trimestral %>%
 Una alternativa es emplear alguna configuración establecida.
 
 ```{r, fig.height=4, fig.align='center'}
-ggplot(data = df.trimestral %>%
-         mutate(valor = valor / 1000000),
+ggplot(data = df.trimestral %>% mutate(valor = valor / 1000000),
        mapping = aes(x = fecha, y = valor))  +
   geom_line(color = "#000000", linetype = "solid") +
   theme_classic() +
@@ -1467,8 +1466,7 @@ La librería `ggthemes` tiene múltiples opciones, por ejemplo la configuración
 
 ```{r, warning=FALSE, fig.height=4, fig.align='center'}
 library(ggthemes)
-ggplot(data = df.trimestral %>%
-         mutate(valor = valor / 1000000),
+ggplot(data = df.trimestral %>% mutate(valor = valor / 1000000),
        mapping = aes(x = fecha, y = valor))  +
   geom_line(color = "#000000", linetype = "solid") +
   theme_stata() +
@@ -1490,7 +1488,7 @@ Ajuste la configuración a `theme_economist()`.
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Informes con RMarkdown
 
@@ -1502,7 +1500,7 @@ RMarkdown es un formato que permite elaborar documentos en R.
 
 La principal ventaja de los documentos RMarkdown (`.Rmd`) frente a otras alternativas, como Microsoft WORD, es que permite combinar el texto con el análisis realizado en R.
 
-Es de bastante utilidad cuando elaboramos informes recurrentes para reportar resultados, pues al cambiar los datos el informe se actualizará automáticamente.
+Es de bastante utilidad cuando elaboramos informes recurrentes para reportar resultados o realizamos investigación reproducible, pues ante cambios en los datos nos permite actualizar el reporte con mucha facilidad. [Ver vídeo](https://www.youtube.com/watch?v=s3JldKoA0zw)
 
 Para crear un documento `.RMD` vamos a:
 
@@ -1520,11 +1518,11 @@ Los documentos RMarkdown tienen tres partes:
 
  ---
 
-A partir de la plantilla que se le proporciona en este curso elabore su propio informe en RMarkdown.
+Realice los ejercicios propuestos en el fichero `Ejercicio de RMarkdown.Rmd`.
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # Recursos para continuar con su aprendizaje
 
@@ -1556,7 +1554,7 @@ Grupos de usuarios de R recomendados.
 
 ---
 
-class:  inverse, center, middle
+class:  inverse, center, middle, separador
 
 # ¡Gracias por su atención!
 

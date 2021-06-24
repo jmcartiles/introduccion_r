@@ -1500,7 +1500,7 @@ RMarkdown es un formato que permite elaborar documentos en R.
 
 La principal ventaja de los documentos RMarkdown (`.Rmd`) frente a otras alternativas, como Microsoft WORD, es que permite combinar el texto con el análisis realizado en R.
 
-Es de bastante utilidad cuando elaboramos informes recurrentes para reportar resultados, pues al cambiar los datos el informe se actualizará automáticamente.
+Es de bastante utilidad cuando elaboramos informes recurrentes para reportar resultados o realizamos investigación reproducible, pues ante cambios en los datos nos permite actualizar el reporte con mucha facilidad. [Ver vídeo](https://www.youtube.com/watch?v=s3JldKoA0zw)
 
 Para crear un documento `.RMD` vamos a:
 
